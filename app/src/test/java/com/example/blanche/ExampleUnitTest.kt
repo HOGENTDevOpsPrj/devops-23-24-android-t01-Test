@@ -1,4 +1,4 @@
-package com.example.templateapplication
+package com.example.blanche
 
 import org.junit.Test
 
