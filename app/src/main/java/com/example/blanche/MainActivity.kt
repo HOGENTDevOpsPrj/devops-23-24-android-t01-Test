@@ -34,7 +34,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             BlancheTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background,
+                ) {
                     HomePage("Blanche")
                 }
             }
@@ -46,14 +49,14 @@ class MainActivity : ComponentActivity() {
 fun HomePage(name: String, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "Blanche",
             fontFamily = FontFamily(Font(R.font.millenia)),
             fontSize = 85.sp,
             fontWeight = FontWeight.ExtraBold,
-            modifier = modifier.padding(top = 80.dp)
+            modifier = modifier.padding(top = 80.dp),
         )
         Text(
             text = "De mobiele tapinstallatie voor al je evenementen",
@@ -61,35 +64,35 @@ fun HomePage(name: String, modifier: Modifier = Modifier) {
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.ExtraBold,
-            modifier = modifier.padding(horizontal = 50.dp)
+            modifier = modifier.padding(horizontal = 50.dp),
         )
         Image(
             modifier = Modifier.size(250.dp),
             painter = painterResource(id = R.drawable.blanchelogo),
-            contentDescription = "FoodTruckLogo" ,
+            contentDescription = "FoodTruckLogo",
         )
         Button(
             onClick = {},
             modifier = Modifier.padding(top = 40.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFFBD6B39))
+            colors = ButtonDefaults.buttonColors(Color(0xFFBD6B39)),
         ) {
             Text(
                 text = "Stel je offerte samen",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = modifier.padding(5.dp)
+                modifier = modifier.padding(5.dp),
             )
         }
         Button(
             onClick = {},
             modifier = Modifier.padding(top = 20.dp).width(250.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFFBD6B39))
+            colors = ButtonDefaults.buttonColors(Color(0xFFBD6B39)),
         ) {
             Text(
                 text = "Beschikbaarheid",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = modifier.padding(8.dp)
+                modifier = modifier.padding(8.dp),
             )
         }
     }
