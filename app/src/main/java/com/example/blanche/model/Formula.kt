@@ -1,4 +1,4 @@
-package com.example.blanche.data
+package com.example.blanche.model
 
 class Formula(
     var id: String,
