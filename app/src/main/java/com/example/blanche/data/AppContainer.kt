@@ -1,5 +1,7 @@
 package com.example.blanche.data
 
+import android.content.Context
+import com.example.blanche.data.database.BlancheDb
 import com.example.blanche.network.FormulaApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -11,7 +13,7 @@ interface AppContainer {
 }
 
 // container that takes care of dependencies
-class DefaultAppContainer() : AppContainer {
+class DefaultAppContainer(private val context: Context) : AppContainer {
 
     private val baseUrl = "http://10.0.2.2:3000"
     private val retrofit = Retrofit.Builder()
@@ -25,7 +27,13 @@ class DefaultAppContainer() : AppContainer {
         retrofit.create(FormulaApiService::class.java)
     }
 
-    override val formulaRepository: FormulaRepository by lazy {
+    /*override val formulaRepository: FormulaRepository by lazy {
         ApiFormulasRepository(retrofitService)
+    }
+    */
+    override val formulaRepository: FormulaRepository by lazy {
+        CachingFormulaRepository(
+            BlancheDb.getDatabase(context = context).formulaDao(),
+            retrofitService)
     }
 }

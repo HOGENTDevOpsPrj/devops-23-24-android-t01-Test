@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Blanche</string>
+    <string name="gewoon_blanche">Gewoon Blanche</string>
+    <string name="formula1_description">Geniet van de essentie van Blanche met onze basis formule. Da\'s gewoon Blanche</string>
+    <string name="image_url">image</string>
+    <string name="formula2_name">Brew Buggy</string>
+    <string name="formula2_description">Mobiele bierervaring op zijn best. Geniet van ambachtelijk bier, direct getapt vanuit deze stijlvolle mobiele tapinstallatie.</string>
+    <string name="formula3_name"><![CDATA[Bier & Bite Bonanza]]></string>
+    <string name="formula3_desc">Stap in de wereld van smaak. Huur de foodtruck en voeg een extra dimensie toe met een selectie van bieren naar keuze, perfect samengesteld met een heerlijke hamburger.</string>
 </resources>

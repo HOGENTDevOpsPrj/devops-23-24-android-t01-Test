@@ -7,7 +7,7 @@ import com.example.blanche.model.Formula
 @Entity(tableName = "formulas")
 data class dbFormula(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: String = "",
     val name: String = "",
     val description: String = "",
     val nrOfDays: Int = 1,
@@ -29,6 +29,7 @@ fun dbFormula.asDomainTask(): Formula {
 
 fun Formula.asDbTask(): dbFormula {
     return dbFormula(
+        id = this.id,
         name = this.name,
         description = this.description,
         nrOfDays = this.nrOfDays,

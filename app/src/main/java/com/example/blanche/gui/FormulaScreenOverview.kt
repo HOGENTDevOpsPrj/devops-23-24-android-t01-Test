@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
@@ -28,8 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.blanche.R
 import com.example.blanche.model.Formula
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,28 +41,28 @@ import com.example.blanche.model.Formula
 fun FormulaScreen() {
     val formulas = listOf(
         Formula(
-            id = "1",
-            name = "Gewoon Blanche",
-            description = "Geniet van de essentie van Blanche met onze basis formule. Da's gewoon Blanche",
+            id = "qsdfq",
+            name = stringResource(R.string.gewoon_blanche),
+            description = stringResource(R.string.formula1_description),
             nrOfDays = 1,
             price = 250.0,
-            imageUrl = "",
+            imageUrl = stringResource(R.string.image_url),
         ),
         Formula(
-            id = "2",
-            name = "Brew Buggy",
-            description = "Mobiele bierervaring op zijn best. Geniet van ambachtelijk bier, direct getapt vanuit deze stijlvolle mobiele tapinstallatie.",
+            id = "qsdf",
+            name = stringResource(R.string.formula2_name),
+            description = stringResource(R.string.formula2_description),
             nrOfDays = 1,
             price = 550.0,
-            imageUrl = "",
+            imageUrl = stringResource(R.string.image_url),
         ),
         Formula(
-            id = "3",
-            name = "Bier & Bite Bonanza",
-            description = "Stap in de wereld van smaak. Huur de foodtruck en voeg een extra dimensie toe met een selectie van bieren naar keuze, perfect samengesteld met een heerlijke hamburger.",
+            id = "asdmlk",
+            name = stringResource(R.string.formula3_name),
+            description = stringResource(R.string.formula3_desc),
             nrOfDays = 1,
             price = 750.0,
-            imageUrl = "",
+            imageUrl = stringResource(R.string.image_url),
         ),
     )
 
@@ -136,6 +139,7 @@ fun FormulaItem(formula: Formula, onItemClick: () -> Unit) {
                 Text(text = formula.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = "Price: ${formula.price}", style = MaterialTheme.typography.labelSmall)
             }
+            Icon(Icons.Default.Edit, contentDescription = "Edit formula")
         }
     }
 }
