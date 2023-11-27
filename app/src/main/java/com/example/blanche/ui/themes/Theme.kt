@@ -1,4 +1,4 @@
-package com.example.blanche.ui.theme
+package com.example.blanche.ui.themes
 
 import android.app.Activity
 import android.os.Build

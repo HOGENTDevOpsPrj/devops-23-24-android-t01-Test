@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mediumPadding">5px</dimen>
+    <dimen name="smallSpacer">5px</dimen>
+    <dimen name="mediumSpacer">10px</dimen>
+    <dimen name="cardCornerRadius">5px</dimen>
+    <dimen name="padding_small">3px</dimen>
+</resources>

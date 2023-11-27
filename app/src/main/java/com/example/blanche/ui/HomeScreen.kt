@@ -1,4 +1,4 @@
-package com.example.blanche.gui
+package com.example.blanche.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
