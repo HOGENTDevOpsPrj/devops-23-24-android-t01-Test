@@ -2,6 +2,7 @@ package com.example.blanche.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -14,6 +15,7 @@ import androidx.navigation.NavDestination
 import com.example.blanche.R
 import com.example.blanche.ui.formulas.FormulaOverviewScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawerContent(
     selectedDestination: NavDestination?,
