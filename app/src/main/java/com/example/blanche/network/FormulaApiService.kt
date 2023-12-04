@@ -14,16 +14,16 @@ interface FormulaApiService {
     suspend fun getFormulas(): List<ApiFormula>
 
     @GET("/api/formula/{id}")
-    suspend fun getFormula(id: Int): ApiFormula
+    suspend fun getFormula(id: String): ApiFormula
 
     @POST("/api/formula")
     suspend fun addFormula(formula: ApiFormula)
 
     @PUT("/api/formula/{id}")
-    suspend fun updateFormula(id: Int, formula: ApiFormula)
+    suspend fun updateFormula(id: String, formula: ApiFormula)
 
     @DELETE("/api/formula/{id}")
-    suspend fun deleteFormula(id: Int)
+    suspend fun deleteFormula(id: String)
 }
 
 // helper function

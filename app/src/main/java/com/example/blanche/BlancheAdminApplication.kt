@@ -10,5 +10,6 @@ class BlancheAdminApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer(context = applicationContext)
+
     }
 }

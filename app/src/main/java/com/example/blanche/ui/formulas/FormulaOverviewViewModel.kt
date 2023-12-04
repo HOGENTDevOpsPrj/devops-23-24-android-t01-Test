@@ -51,16 +51,18 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
         viewModelScope.launch {
             saveFormula(
                 Formula(
+                    _uiState.value.newFormulaId.toString(),
                     _uiState.value.newFormulaName,
                     _uiState.value.newFormulaDescription,
-                    _uiState.value.newFormulaNrOfDays,
-                    _uiState.value.newFormulaPrice,
+                    _uiState.value.newFormulaNrOfDays.toInt(),
+                    _uiState.value.newFormulaPrice.toDouble(),
                     _uiState.value.newFormulaImageUrl,
                 ),
             )
         }
         _uiState.update { currentState ->
             currentState.copy(
+                newFormulaId = "",
                 newFormulaName = "",
                 newFormulaDescription = "",
                 newFormulaNrOfDays = 0,

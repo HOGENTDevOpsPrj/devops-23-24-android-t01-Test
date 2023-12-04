@@ -20,7 +20,7 @@ interface FormulaDao {
     suspend fun delete(item: dbFormula)
 
     @Query("SELECT * from formulas WHERE id = :id")
-    fun getItem(id: Int): Flow<dbFormula>
+    fun getItem(id: String): Flow<dbFormula>
 
     @Query("SELECT * from formulas ORDER BY name ASC")
     fun getAllItems(): Flow<List<dbFormula>>

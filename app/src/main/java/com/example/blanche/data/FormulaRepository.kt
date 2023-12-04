@@ -2,9 +2,9 @@ package com.example.blanche.data
 
 import android.util.Log
 import com.example.blanche.data.database.FormulaDao
-import com.example.blanche.data.database.asDbTask
-import com.example.blanche.data.database.asDomainTask
-import com.example.blanche.data.database.asDomainTasks
+import com.example.blanche.data.database.asDbFormula
+import com.example.blanche.data.database.asDomainFormula
+import com.example.blanche.data.database.asDomainFormulas
 import com.example.blanche.model.Formula
 import com.example.blanche.network.FormulaApiService
 import com.example.blanche.network.asDomainObjects
@@ -12,13 +12,14 @@ import com.example.blanche.network.getFormulasAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import java.net.SocketTimeoutException
 
 interface FormulaRepository {
     // all items from datasource
     fun getFormulas(): Flow<List<Formula>>
 
     // single item from datasource
-    fun getFormula(id: Int): Flow<Formula?>
+    fun getFormula(id: String): Flow<Formula?>
 
     suspend fun addFormula(formula: Formula)
     suspend fun deleteFormula(formula: Formula)
@@ -30,13 +31,14 @@ class CachingFormulaRepository(
     private val formulaDao: FormulaDao,
     private val formulaApiService: FormulaApiService,
 ) : FormulaRepository {
+
     // this repo contains logic to refresh the formulas (remote)
     // sometimes that logic is written in a 'usecase'
     override fun getFormulas(): Flow<List<Formula>> {
-        // checkes the array of items comming in
+        // checks the array of items coming in
         // when empty --> tries to fetch from API
         return formulaDao.getAllItems().map {
-            it.asDomainTasks()
+            it.asDomainFormulas()
         }.onEach {
             if (it.isEmpty()) {
                 refresh()
@@ -44,31 +46,36 @@ class CachingFormulaRepository(
         }
     }
 
-    override fun getFormula(id: Int): Flow<Formula?> {
+    override fun getFormula(id: String): Flow<Formula?> {
         return formulaDao.getItem(id).map {
-            it.asDomainTask()
+            it.asDomainFormula()
         }
     }
 
     override suspend fun addFormula(formula: Formula) {
-        formulaDao.insert(formula.asDbTask())
+        formulaDao.insert(formula.asDbFormula())
     }
 
     override suspend fun deleteFormula(formula: Formula) {
-        formulaDao.delete(formula.asDbTask())
+        formulaDao.delete(formula.asDbFormula())
     }
 
     override suspend fun updateFormula(formula: Formula) {
-        formulaDao.update(formula.asDbTask())
+        formulaDao.update(formula.asDbFormula())
     }
 
     override suspend fun refresh() {
-        formulaApiService.getFormulasAsFlow().asDomainObjects().collect { value ->
-            for (formula in value) {
-                Log.i("TEST", "refresh: $value")
-                addFormula(formula)
+        try{
+            formulaApiService.getFormulasAsFlow().asDomainObjects().collect { value ->
+                for (formula in value) {
+                    Log.i("TEST", "refresh: $value")
+                    addFormula(formula)
+                }
             }
+        }catch (e: SocketTimeoutException){
+            Log.i("TEST", "refresh: $e")
         }
+
     }
 }
 

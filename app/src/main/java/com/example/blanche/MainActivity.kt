@@ -3,41 +3,43 @@ package com.example.blanche
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import com.example.blanche.ui.BlancheApp
 import com.example.blanche.ui.themes.BlancheTheme
+import com.example.blanche.ui.util.BlancheNavigationType
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BlancheTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    BlancheApp()
+                // create a Surface to overlap image and texts
+                Surface {
+                    val windowSize = calculateWindowSizeClass(activity = this)
+
+                    when (windowSize.widthSizeClass) {
+                        WindowWidthSizeClass.Compact -> {
+                            BlancheApp(BlancheNavigationType.BOTTOM_NAVIGATION)
+                        }
+
+                        WindowWidthSizeClass.Medium -> {
+                            BlancheApp(BlancheNavigationType.NAVIGATION_RAIL)
+                        }
+
+                        WindowWidthSizeClass.Expanded -> {
+                            BlancheApp(navigationType = BlancheNavigationType.PERMANENT_NAVIGATION_DRAWER)
+                        }
+
+                        else -> {
+                            BlancheApp(navigationType = BlancheNavigationType.BOTTOM_NAVIGATION)
+                        }
+                    }
                 }
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun MainActivityPreview() {
-    BlancheTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
-        ) {
-            BlancheApp()
         }
     }
 }

@@ -4,6 +4,7 @@ import com.example.blanche.model.Formula
 
 // the data class just holds the (immutable) values of the state
 data class FormulaOverviewState(
+    val newFormulaId: String = "",
     val newFormulaName: String = "",
     val newFormulaDescription: String = "",
     val newFormulaNrOfDays: Int = 0,

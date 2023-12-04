@@ -13,4 +13,5 @@
     <string name="expand_button_content_description">expand for more content</string>
     <string name="edit_formula_content_description">edit formula</string>
     <string name="delete_formula_content_description">delete formula</string>
+    <string name="navigation_rail">Navigate between items here</string>
 </resources>

@@ -16,8 +16,9 @@ data class dbFormula(
 
 )
 
-fun dbFormula.asDomainTask(): Formula {
+fun dbFormula.asDomainFormula(): Formula {
     return Formula(
+        this.id,
         this.name,
         this.description,
         this.nrOfDays,
@@ -26,8 +27,9 @@ fun dbFormula.asDomainTask(): Formula {
     )
 }
 
-fun Formula.asDbTask(): dbFormula {
+fun Formula.asDbFormula(): dbFormula {
     return dbFormula(
+        id = this.id,
         name = this.name,
         description = this.description,
         nrOfDays = this.nrOfDays,
@@ -36,9 +38,9 @@ fun Formula.asDbTask(): dbFormula {
     )
 }
 
-fun List<dbFormula>.asDomainTasks(): List<Formula> {
+fun List<dbFormula>.asDomainFormulas(): List<Formula> {
     var formulaList = this.map {
-        Formula(it.name, it.description, it.nrOfDays, it.price, it.imageUrl)
+        Formula(it.id, it.name, it.description, it.nrOfDays, it.price, it.imageUrl)
     }
     return formulaList
 }

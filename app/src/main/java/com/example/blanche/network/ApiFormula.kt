@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiFormula(
+    val id: String,
     val name: String,
     val description: String,
     val price: Double,
@@ -25,6 +26,7 @@ fun Flow<List<ApiFormula>>.asDomainObjects(): Flow<List<Formula>> {
 fun List<ApiFormula>.asDomainObjects(): List<Formula> {
     var domainList = this.map {
         Formula(
+            id = it.id,
             name = it.name,
             description = it.description,
             nrOfDays = it.nrOfDays,

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -39,9 +38,7 @@ fun CreateFormula(
     Dialog(
         onDismissRequest = onDismissRequest,
     ) {
-        Card(
-            shape = RoundedCornerShape(dimensionResource(R.dimen.cardCornerRadius)),
-        ) {
+        Card {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
