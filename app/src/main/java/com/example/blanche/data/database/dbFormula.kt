@@ -10,7 +10,7 @@ data class dbFormula(
     val id: String = "",
     val name: String = "",
     val description: String = "",
-    val nrOfDays: Int = 1,
+    //val nrOfDays: Int = 1,
     val price: Double = 1.0,
     val imageUrl: String = "imageurl",
 
@@ -18,9 +18,10 @@ data class dbFormula(
 
 fun dbFormula.asDomainFormula(): Formula {
     return Formula(
+        this.id,
         this.name,
         this.description,
-        this.nrOfDays,
+        //this.nrOfDays,
         this.price,
         this.imageUrl,
     )
@@ -28,9 +29,10 @@ fun dbFormula.asDomainFormula(): Formula {
 
 fun Formula.asDbFormula(): dbFormula {
     return dbFormula(
+        id = this.id,
         name = this.name,
         description = this.description,
-        nrOfDays = this.nrOfDays,
+        //nrOfDays = this.nrOfDays,
         price = this.price,
         imageUrl = this.imageUrl,
     )
@@ -38,7 +40,7 @@ fun Formula.asDbFormula(): dbFormula {
 
 fun List<dbFormula>.asDomainFormulas(): List<Formula> {
     var formulaList = this.map {
-        Formula(it.name, it.description, it.nrOfDays, it.price, it.imageUrl)
+        Formula(it.id, it.name, it.description, it.price, it.imageUrl)
     }
     return formulaList
 }

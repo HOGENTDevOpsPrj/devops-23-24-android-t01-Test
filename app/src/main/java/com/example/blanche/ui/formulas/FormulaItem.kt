@@ -103,18 +103,29 @@ fun FormulaItem(
                     )
                 }
             }
-            Icon(
-                imageVector = Icons.Filled.Edit,
+            IconButton(
+                onClick = { /*TODO*/ },
                 modifier = Modifier.align(Alignment.CenterVertically),
-                contentDescription = stringResource(R.string.edit_formula_content_description),
-                tint = MaterialTheme.colorScheme.secondary,
-            )
-            Icon(
-                imageVector = Icons.Filled.Delete,
+            ){
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    contentDescription = stringResource(R.string.edit_formula_content_description),
+                    tint = MaterialTheme.colorScheme.secondary,
+                )
+            }
+            IconButton(
+                onClick = { /*TODO*/ },
                 modifier = Modifier.align(Alignment.CenterVertically),
-                contentDescription = stringResource(R.string.delete_formula_content_description),
-                tint = MaterialTheme.colorScheme.secondary,
-            )
+            ){
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    contentDescription = stringResource(R.string.delete_formula_content_description),
+                    tint = MaterialTheme.colorScheme.secondary,
+                )
+            }
+
             FormulaItemButton(
                 expanded = expanded,
                 onClick = { expanded = !expanded },

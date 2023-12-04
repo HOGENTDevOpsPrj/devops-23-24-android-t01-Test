@@ -12,7 +12,7 @@ data class ApiFormula(
     val description: String,
     val price: Double,
     val imageUrl: String,
-    val nrOfDays: Int,
+    val nrOfDays: Int? = 1,
 )
 
 // extension function for an ApiFormula List to convert to a Domain Task List
@@ -26,9 +26,10 @@ fun Flow<List<ApiFormula>>.asDomainObjects(): Flow<List<Formula>> {
 fun List<ApiFormula>.asDomainObjects(): List<Formula> {
     var domainList = this.map {
         Formula(
+            id = it.id,
             name = it.name,
             description = it.description,
-            nrOfDays = it.nrOfDays,
+            /*nrOfDays = it.nrOfDays,*/
             price = it.price,
             imageUrl = it.imageUrl,
         )
