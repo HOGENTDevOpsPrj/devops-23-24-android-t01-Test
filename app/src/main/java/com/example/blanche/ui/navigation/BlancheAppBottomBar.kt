@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun BlancheAppBottomBar(goHome: () -> Unit) {
     BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.outlineVariant,
+        contentColor = MaterialTheme.colorScheme.surface,
         actions = {
             IconButton(onClick = goHome) {
                 Icon(Icons.Filled.Home, contentDescription = "navigate to home screen")

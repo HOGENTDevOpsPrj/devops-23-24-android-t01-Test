@@ -22,8 +22,8 @@ fun BlancheAppTopBar(
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.outlineVariant,
+            titleContentColor = MaterialTheme.colorScheme.surface,
         ),
         title = {
             Text(stringResource(id = currentScreenTitle))

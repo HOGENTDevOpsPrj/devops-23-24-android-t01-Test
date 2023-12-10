@@ -1,4 +1,4 @@
-package com.example.blanche.network
+package com.example.blanche.network.formulas
 
 import com.example.blanche.model.Formula
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,10 @@ data class ApiFormula(
     val description: String,
     val price: Double,
     val imageUrl: String,
-    val nrOfDays: Int? = 1,
+    val hasDrinks: Boolean,
+    val hasFood: Boolean,
+    val pricePerDays: LinkedHashMap<Int, Double>,
+    val pricePerExtraDay: Double,
 )
 
 // extension function for an ApiFormula List to convert to a Domain Task List

@@ -74,7 +74,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                     modifier = Modifier
                         .wrapContentWidth()
                         .fillMaxHeight()
-                        .background(MaterialTheme.colorScheme.inverseOnSurface)
+                        .background(MaterialTheme.colorScheme.secondary)
                         .padding(dimensionResource(R.dimen.drawer_padding_content))
                 )
             }
@@ -118,7 +118,11 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                 BlancheAppBottomBar(goHome)
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {
+                FloatingActionButton(
+                    onClick = { isAddNewVisible = !isAddNewVisible },
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             },

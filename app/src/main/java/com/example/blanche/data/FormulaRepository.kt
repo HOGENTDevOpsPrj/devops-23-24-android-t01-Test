@@ -6,9 +6,9 @@ import com.example.blanche.data.database.asDbFormula
 import com.example.blanche.data.database.asDomainFormula
 import com.example.blanche.data.database.asDomainFormulas
 import com.example.blanche.model.Formula
-import com.example.blanche.network.FormulaApiService
-import com.example.blanche.network.asDomainObjects
-import com.example.blanche.network.getFormulasAsFlow
+import com.example.blanche.network.formulas.FormulaApiService
+import com.example.blanche.network.formulas.asDomainObjects
+import com.example.blanche.network.formulas.getFormulasAsFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
