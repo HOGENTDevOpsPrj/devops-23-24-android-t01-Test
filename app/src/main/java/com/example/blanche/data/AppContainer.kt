@@ -2,7 +2,7 @@ package com.example.blanche.data
 
 import android.content.Context
 import com.example.blanche.data.database.BlancheDb
-import com.example.blanche.network.FormulaApiService
+import com.example.blanche.network.formulas.FormulaApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType

@@ -8,6 +8,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.blanche.R
 
 enum class FormulaOverviewScreen(@StringRes val title: Int, val icon: ImageVector) {
-    Start(title = R.string.app_name, icon = Icons.Filled.Check),
+    Start(title = R.string.formulas, icon = Icons.Filled.Check),
     Detail(title = R.string.detail, Icons.Filled.Check),
 }

@@ -4,7 +4,7 @@
     <dimen name="smallSpacer">5px</dimen>
     <dimen name="mediumSpacer">10px</dimen>
     <dimen name="cardCornerRadius">5px</dimen>
-    <dimen name="padding_small">3px</dimen>
+    <dimen name="cardPadding">24px</dimen>
     <dimen name="drawer_width">160dp</dimen>
     <dimen name="drawer_padding_content">8dp</dimen>
     <dimen name="drawer_padding_header">8dp</dimen>

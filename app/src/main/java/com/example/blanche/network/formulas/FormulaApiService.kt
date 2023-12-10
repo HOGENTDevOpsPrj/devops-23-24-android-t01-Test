@@ -1,4 +1,4 @@
-package com.example.blanche.network
+package com.example.blanche.network.formulas
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

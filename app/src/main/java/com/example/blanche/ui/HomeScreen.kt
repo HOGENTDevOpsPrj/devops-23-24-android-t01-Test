@@ -1,10 +1,8 @@
 package com.example.blanche.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -13,15 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.blanche.R
 
 @Composable
 fun HomePage(name: String, modifier: Modifier = Modifier) {
@@ -31,7 +26,6 @@ fun HomePage(name: String, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Blanche",
-            fontFamily = FontFamily(Font(R.font.millenia)),
             fontSize = 85.sp,
             fontWeight = FontWeight.ExtraBold,
             modifier = modifier.padding(top = 80.dp),
@@ -44,11 +38,11 @@ fun HomePage(name: String, modifier: Modifier = Modifier) {
             fontWeight = FontWeight.ExtraBold,
             modifier = modifier.padding(horizontal = 50.dp),
         )
-        Image(
+/*        Image(
             modifier = Modifier.size(250.dp),
             painter = painterResource(id = R.drawable.blanchelogo),
             contentDescription = "FoodTruckLogo",
-        )
+        )*/
         Button(
             onClick = {},
             modifier = Modifier.padding(top = 40.dp),
