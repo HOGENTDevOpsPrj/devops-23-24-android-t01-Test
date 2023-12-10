@@ -5,6 +5,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -49,9 +50,9 @@ fun FormulaItem(
         var expanded by rememberSaveable { mutableStateOf(false) }
         val color by animateColorAsState(
             targetValue = if (expanded) {
-                MaterialTheme.colorScheme.background
+                MaterialTheme.colorScheme.onPrimary
             } else {
-                MaterialTheme.colorScheme.background
+                MaterialTheme.colorScheme.onPrimary
             },
             label = "colorAnimation",
         )
@@ -68,11 +69,15 @@ fun FormulaItem(
                 .fillMaxWidth()
                 .background(color),
         ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+            ) {
                 Row {
                     Text(
                         text = name,
                         modifier = Modifier
-                            .padding(16.dp)
+                            .padding(end = 8.dp)
                             .align(Alignment.CenterVertically),
                         style = MaterialTheme.typography.bodyLarge,
                         textDecoration = TextDecoration.None,
@@ -98,6 +103,7 @@ fun FormulaItem(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
+            }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = { /*TODO*/ },
