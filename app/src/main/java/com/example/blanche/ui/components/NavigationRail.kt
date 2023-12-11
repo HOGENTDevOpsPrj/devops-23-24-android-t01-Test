@@ -6,7 +6,7 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
-import com.example.blanche.ui.navigation.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.NavigationOverview
 
 @Composable
 fun BlancheNavigationRail(
@@ -15,7 +15,7 @@ fun BlancheNavigationRail(
     modifier: Modifier = Modifier,
 ) {
     NavigationRail(modifier = modifier) {
-        for (navItem in FormulaOverviewScreen.values()) {
+        for (navItem in NavigationOverview.values()) {
             NavigationRailItem(
                 selected = selectedDestination?.route == navItem.name,
                 onClick = { onTabPressed(navItem.name) },

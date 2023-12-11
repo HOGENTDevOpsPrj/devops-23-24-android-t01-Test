@@ -8,14 +8,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.blanche.R
 
-val quicksand = FontFamily(
-    Font(R.font.quicksand_semibold),
+val montserrat = FontFamily(
+    Font(R.font.montserrat_semibold),
 )
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = quicksand,
+        fontFamily = montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

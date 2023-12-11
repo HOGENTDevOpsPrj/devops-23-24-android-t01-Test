@@ -36,7 +36,7 @@ import com.example.blanche.ui.components.BlancheAppBottomBar
 import com.example.blanche.ui.components.BlancheAppTopBar
 import com.example.blanche.ui.components.BlancheNavigationRail
 import com.example.blanche.ui.components.NavigationDrawerContent
-import com.example.blanche.ui.navigation.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.NavigationOverview
 import com.example.blanche.ui.navigation.navComponent
 import com.example.blanche.ui.themes.BlancheTheme
 import com.example.blanche.ui.util.BlancheNavigationType
@@ -53,15 +53,16 @@ fun BlancheApp(navigationType: BlancheNavigationType,
 
     val goHome: () -> Unit = {
         navController.popBackStack(
-            FormulaOverviewScreen.Start.name,
+            NavigationOverview.Start.name,
             inclusive = false,
         )
     }
 
-    val gotToReservations = { navController.navigate(FormulaOverviewScreen.Reservations.name) {launchSingleTop = true} }
+    val gotToReservations = { navController.navigate(NavigationOverview.Reservations.name) {launchSingleTop = true} }
+    val goToFormulas = {  navController.navigate(NavigationOverview.Formulas.name) {launchSingleTop = true} }
 
-    val currentScreenTitle = FormulaOverviewScreen.valueOf(
-        backStackEntry?.destination?.route ?: FormulaOverviewScreen.Start.name,
+    val currentScreenTitle = NavigationOverview.valueOf(
+        backStackEntry?.destination?.route ?: NavigationOverview.Start.name,
     ).title
 
     var isAddNewVisible by remember{ mutableStateOf(false) }
@@ -120,7 +121,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
             },
             bottomBar = {
 
-                BlancheAppBottomBar(goHome, gotToReservations)
+                BlancheAppBottomBar(goHome, gotToReservations, goToFormulas)
             },
             floatingActionButton = {
                 FloatingActionButton(

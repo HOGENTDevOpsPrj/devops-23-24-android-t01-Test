@@ -34,6 +34,7 @@ fun BlancheAppTopBar(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "navigate back",
+                        tint = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }

@@ -34,9 +34,9 @@ fun CalendarView() {
         DateRangePicker(
             state = state,
             colors = DatePickerDefaults.colors(
-                todayContentColor = MaterialTheme.colorScheme.outlineVariant,
-                todayDateBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                disabledDayContentColor = MaterialTheme.colorScheme.error,
+                todayContentColor = MaterialTheme.colorScheme.scrim,
+                todayDateBorderColor = MaterialTheme.colorScheme.scrim,
+                disabledDayContentColor = MaterialTheme.colorScheme.outlineVariant,
                 //dayInSelectionRangeContainerColor = Color.Red
             ),
             modifier = Modifier.weight(1f))
