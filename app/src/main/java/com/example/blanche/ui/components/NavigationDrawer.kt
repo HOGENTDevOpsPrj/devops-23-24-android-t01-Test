@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavDestination
 import com.example.blanche.R
-import com.example.blanche.ui.formulas.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.FormulaOverviewScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

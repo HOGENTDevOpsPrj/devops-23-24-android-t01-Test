@@ -6,7 +6,7 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
-import com.example.blanche.ui.formulas.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.FormulaOverviewScreen
 
 @Composable
 fun BlancheNavigationRail(

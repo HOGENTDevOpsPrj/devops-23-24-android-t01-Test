@@ -15,4 +15,5 @@
     <string name="edit_formula_content_description">edit formula</string>
     <string name="delete_formula_content_description">delete formula</string>
     <string name="navigation_rail">Navigate between items here</string>
+    <string name="Reservations">Reservaties</string>
 </resources>
