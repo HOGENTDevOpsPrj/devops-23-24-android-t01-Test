@@ -1,14 +1,13 @@
 package com.example.blanche.ui.navigation
 
 import android.util.Log
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanche.ui.formulas.FormulaOverview
-import com.example.blanche.ui.formulas.FormulaOverviewScreen
+import com.example.blanche.ui.reservations.CalendarView
 
 @Composable
 fun navComponent(
@@ -26,9 +25,9 @@ fun navComponent(
             Log.i("vm inspection", "Nav to TaskOverview")
             FormulaOverview(isAddingVisible = fabActionVisible, makeInvisible = fabResetAction)
         }
-        composable(route = FormulaOverviewScreen.Detail.name) {
-            Log.i("vm inspection", "Nav to detail")
-            Text("Detail")
+        composable(route = FormulaOverviewScreen.Reservations.name) {
+            Log.i("vm inspection", "Nav to reservations")
+            CalendarView()
         }
     }
 }

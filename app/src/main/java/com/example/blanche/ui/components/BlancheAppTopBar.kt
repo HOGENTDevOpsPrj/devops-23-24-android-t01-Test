@@ -1,4 +1,4 @@
-package com.example.blanche.ui.navigation
+package com.example.blanche.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
