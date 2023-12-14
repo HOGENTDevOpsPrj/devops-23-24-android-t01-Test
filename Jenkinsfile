@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GRADLE_HOME = tool 'GradleDevOps' // Assumes Gradle is configured as a tool in Jenkins
-        PATH = "$PATH:/usr/lib/jvm/java-17-openjdk-17.0.9.0.9-2.el9.x86_64/bin"
+        PATH = "$PATH:$GRADLE_HOME/bin"
     }
 
     stages {
