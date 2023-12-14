@@ -43,9 +43,5 @@ pipeline {
         // Add more stages as needed (e.g., deployment)
     }
 
-    post {
-        always {
-            // Clean up or perform any post-build actions
-        }
-    }
+
 }
