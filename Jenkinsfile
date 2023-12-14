@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GRADLE_HOME = tool 'Gradle' // Assumes Gradle is configured as a tool in Jenkins
+        GRADLE_HOME = tool 'GradleDevOps' // Assumes Gradle is configured as a tool in Jenkins
         PATH = "$PATH:$GRADLE_HOME/bin"
     }
 
