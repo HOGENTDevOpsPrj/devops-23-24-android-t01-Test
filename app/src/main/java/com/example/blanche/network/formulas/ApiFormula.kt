@@ -14,7 +14,7 @@ data class ApiFormula(
     val imageUrl: String,
     val hasDrinks: Boolean,
     val hasFood: Boolean,
-    val pricePerDays: LinkedHashMap<Int, Double>,
+    val pricePerDays: HashMap<Int, Double>,
     val pricePerExtraDay: Double,
 )
 
@@ -32,9 +32,12 @@ fun List<ApiFormula>.asDomainObjects(): List<Formula> {
             id = it.id,
             name = it.name,
             description = it.description,
-            /*nrOfDays = it.nrOfDays,*/
             price = it.price,
             imageUrl = it.imageUrl,
+            hasDrinks = it.hasDrinks,
+            hasFood = it.hasFood,
+            pricePerDays = it.pricePerDays,
+            pricePerExtraDay = it.pricePerExtraDay
         )
     }
     return domainList

@@ -98,6 +98,7 @@ fun CreateTaskPreview() {
         formulaNrOfDays = 0,
         formulaPrice = 0.0,
         formulaImageUrl = "",
+
         onFormulaNameChanged = {},
         onFormulaDescriptionChanged = {},
         onFormulaNrOfDaysChanged = {},

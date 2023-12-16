@@ -1,11 +1,15 @@
 package com.example.blanche.network.formulas
 
+import com.example.blanche.model.Formula
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 // define what the API looks like
 interface FormulaApiService {
@@ -14,16 +18,16 @@ interface FormulaApiService {
     suspend fun getFormulas(): List<ApiFormula>
 
     @GET("/api/formula/{id}")
-    suspend fun getFormula(id: String): ApiFormula
+    suspend fun getFormula(@Path("id") id: String): ApiFormula
 
     @POST("/api/formula")
-    suspend fun addFormula(formula: ApiFormula)
+    suspend fun addFormula(@Body formula: ApiFormula)
 
     @PUT("/api/formula/{id}")
-    suspend fun updateFormula(id: String, formula: ApiFormula)
+    suspend fun updateFormula(@Path("id") id: String, @Body formula: Formula): Response<Unit>
 
     @DELETE("/api/formula/{id}")
-    suspend fun deleteFormula(id: String)
+    suspend fun deleteFormula(@Path("id") id: String): Response<Unit>
 }
 
 // helper function

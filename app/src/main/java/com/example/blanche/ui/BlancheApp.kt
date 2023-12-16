@@ -1,6 +1,7 @@
 package com.example.blanche.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -25,7 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -36,7 +39,7 @@ import com.example.blanche.ui.components.BlancheAppBottomBar
 import com.example.blanche.ui.components.BlancheAppTopBar
 import com.example.blanche.ui.components.BlancheNavigationRail
 import com.example.blanche.ui.components.NavigationDrawerContent
-import com.example.blanche.ui.navigation.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.NavigationOverview
 import com.example.blanche.ui.navigation.navComponent
 import com.example.blanche.ui.themes.BlancheTheme
 import com.example.blanche.ui.util.BlancheNavigationType
@@ -53,15 +56,16 @@ fun BlancheApp(navigationType: BlancheNavigationType,
 
     val goHome: () -> Unit = {
         navController.popBackStack(
-            FormulaOverviewScreen.Start.name,
+            NavigationOverview.Start.name,
             inclusive = false,
         )
     }
 
-    val gotToReservations = { navController.navigate(FormulaOverviewScreen.Reservations.name) {launchSingleTop = true} }
+    val gotToReservations = { navController.navigate(NavigationOverview.Reservations.name) {launchSingleTop = true} }
+    val goToFormulas = {  navController.navigate(NavigationOverview.Formulas.name) {launchSingleTop = true} }
 
-    val currentScreenTitle = FormulaOverviewScreen.valueOf(
-        backStackEntry?.destination?.route ?: FormulaOverviewScreen.Start.name,
+    val currentScreenTitle = NavigationOverview.valueOf(
+        backStackEntry?.destination?.route ?: NavigationOverview.Start.name,
     ).title
 
     var isAddNewVisible by remember{ mutableStateOf(false) }
@@ -99,7 +103,6 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                 },
                 //modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
             ) { innerPadding ->
-
                 navComponent(
                     navController = navController,
                     modifier = Modifier.padding(innerPadding),
@@ -109,31 +112,46 @@ fun BlancheApp(navigationType: BlancheNavigationType,
         }
     }
     else if(navigationType == BlancheNavigationType.BOTTOM_NAVIGATION) {
-        Scaffold(
-            containerColor = Color.Transparent,
-            topBar = {
-                BlancheAppTopBar(
-                    canNavigateBack = canNavigateBack,
-                    navigateUp = navigateUp,
-                    currentScreenTitle = currentScreenTitle,
-                )
-            },
-            bottomBar = {
+        if (!canNavigateBack) {
+            navComponent(navController)
+            HomeScreen(gotToReservations, goToFormulas)
+        }
+        else {
+            val image = painterResource(R.drawable.backgroundimage)
+            Image(
+                painter = image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                alpha = 0.1F
+            )
+            Scaffold(
+                containerColor = Color.Transparent,
+                topBar = {
+                    BlancheAppTopBar(
+                        canNavigateBack = canNavigateBack,
+                        navigateUp = navigateUp,
+                        currentScreenTitle = currentScreenTitle,
+                    )
+                },
+                bottomBar = {
 
-                BlancheAppBottomBar(goHome, gotToReservations)
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { isAddNewVisible = !isAddNewVisible },
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
-                }
-            },
-        ) { innerPadding ->
+                    BlancheAppBottomBar(goHome, gotToReservations, goToFormulas)
+                },
+                floatingActionButton = {
+                    if (currentScreenTitle != NavigationOverview.valueOf(NavigationOverview.Reservations.name).title) {
+                        FloatingActionButton(
+                            onClick = { isAddNewVisible = !isAddNewVisible },
+                            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ) {
+                            Icon(Icons.Default.Add, contentDescription = "Add")
+                        }
+                    }
+                },
+            ) { innerPadding ->
 
-            navComponent(navController, modifier = Modifier.padding(innerPadding))
+                navComponent(navController, modifier = Modifier.padding(innerPadding))
+            }
         }
     }
     else{

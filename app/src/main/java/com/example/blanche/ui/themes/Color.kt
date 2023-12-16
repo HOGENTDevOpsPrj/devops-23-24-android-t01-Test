@@ -2,7 +2,7 @@ package com.example.blanche.ui.themes
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFFFFE16E)
+val md_theme_light_primary = Color(0xFFCDC6B4)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFFFE16E)
 val md_theme_light_onPrimaryContainer = Color(0xFF221B00)
@@ -14,7 +14,7 @@ val md_theme_light_tertiary = Color(0xFF9A4520)
 val md_theme_light_onTertiary = Color(0xFFFFFFFF)
 val md_theme_light_tertiaryContainer = Color(0xFFFFDBCE)
 val md_theme_light_onTertiaryContainer = Color(0xFF370E00)
-val md_theme_light_error = Color(0xFFBA1A1A)
+val md_theme_light_error = Color(0xFFCE1313)
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
 val md_theme_light_onError = Color(0xFFFFFFFF)
 val md_theme_light_onErrorContainer = Color(0xFF410002)

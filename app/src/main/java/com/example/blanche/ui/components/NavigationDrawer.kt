@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavDestination
 import com.example.blanche.R
-import com.example.blanche.ui.navigation.FormulaOverviewScreen
+import com.example.blanche.ui.navigation.NavigationOverview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +23,7 @@ fun NavigationDrawerContent(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        for (navItem in FormulaOverviewScreen.values()) {
+        for (navItem in NavigationOverview.values()) {
             NavigationDrawerItem(
                 selected = selectedDestination?.route == navItem.name,
                 label = {

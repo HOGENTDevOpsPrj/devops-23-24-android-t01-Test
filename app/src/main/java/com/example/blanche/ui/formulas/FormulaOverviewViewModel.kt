@@ -28,8 +28,24 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
     * Note: uiState is a cold flow. Changes don't come in from above unless a
     * refresh is called...
     * */
-    private val _uiState = MutableStateFlow(FormulaOverviewState(/*FormulaSampler.getAll()*/))
+    private val _uiState = MutableStateFlow(FormulaOverviewState())
     val uiState: StateFlow<FormulaOverviewState> = _uiState.asStateFlow()
+
+    private val _showEditFormulaScreen = MutableStateFlow(false)
+    val showEditFormulaScreen: StateFlow<Boolean> = _showEditFormulaScreen
+
+    fun toggleEditFormulaScreen() {
+        _showEditFormulaScreen.value = !_showEditFormulaScreen.value
+    }
+
+    fun setFormula(formula: Formula) {
+        setFormulaId(formula.id)
+        setNewFormulaName(formula.name)
+        setNewFormulaDescription(formula.description)
+        setNewFormulaPrice(formula.price)
+        setNewPricePerDays(formula.pricePerDays)
+        setNewPricePerExtraDay(formula.pricePerExtraDay)
+    }
 
     /*
   * Note: uiListState is a hot flow (.stateIn makes it so) --> it updates given a scope (viewmodelscope)
@@ -46,6 +62,31 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
         getRepoFormulas()
     }
 
+    fun editFormula(formula: Formula){
+        viewModelScope.launch {
+            formulaRepository.updateFormula(formula)
+        }
+    }
+
+    fun deleteFormula(formula: Formula){
+        viewModelScope.launch {
+            formulaRepository.deleteFormula(formula)
+        }
+    }
+/*
+    var showDeleteConfirmDialog by mutableStateOf(false)
+        private set
+
+    fun confirmDeleteFormula(formula: Formula){
+        showDeleteConfirmDialog = true
+    }
+
+    fun cancelDeleteFormula(){
+        showDeleteConfirmDialog = false
+    }
+
+    */
+
     fun addFormula() {
         // saving the new task (to db? to network? --> doesn't matter
         viewModelScope.launch {
@@ -54,9 +95,12 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
                     _uiState.value.newFormulaId,
                     _uiState.value.newFormulaName,
                     _uiState.value.newFormulaDescription,
-                   // _uiState.value.newFormulaNrOfDays.toInt(),
                     _uiState.value.newFormulaPrice,
                     _uiState.value.newFormulaImageUrl,
+                    _uiState.value.newFormulaHasDrinks,
+                    _uiState.value.newFormulaHasFood,
+                    _uiState.value.newFormulaPricePerDays,
+                    _uiState.value.newFormulaPricePerExtraDay,
                 ),
             )
         }
@@ -64,19 +108,44 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
             currentState.copy(
                 newFormulaName = "",
                 newFormulaDescription = "",
-                //newFormulaNrOfDays = 0,
                 newFormulaPrice = 0.0,
                 newFormulaImageUrl = "",
+                newFormulaHasDrinks = false,
+                newFormulaHasFood = false,
+                newFormulaPricePerDays = mapOf(0 to 0.0),
+                newFormulaPricePerExtraDay = 0.0,
                 scrollActionIdx = currentState.scrollActionIdx.plus(1),
                 scrollToItemIndex = uiListState.value.formulaList.size,
             )
         }
     }
 
+    fun updateFormula() {
+        viewModelScope.launch {
+            updateFormula(
+                Formula(
+                    _uiState.value.newFormulaId,
+                    _uiState.value.newFormulaName,
+                    _uiState.value.newFormulaDescription,
+                    _uiState.value.newFormulaPrice,
+                    _uiState.value.newFormulaImageUrl,
+                    _uiState.value.newFormulaHasDrinks,
+                    _uiState.value.newFormulaHasFood,
+                    _uiState.value.newFormulaPricePerDays,
+                    _uiState.value.newFormulaPricePerExtraDay,
+                ),
+            )
+        }
+    }
+
     private fun validateInput(): Boolean {
         return with(_uiState) {
-            value.newFormulaName.isNotBlank() && value.newFormulaDescription.isNotBlank() && value.newFormulaNrOfDays > 0 && value.newFormulaPrice > 0.0 && value.newFormulaImageUrl.isNotBlank()
+            value.newFormulaName.isNotBlank() && value.newFormulaDescription.isNotBlank()
         }
+    }
+
+    fun setFormulaId(id: String) {
+        _uiState.update { it.copy(newFormulaId = id) }
     }
 
     fun setNewFormulaName(newName: String) {
@@ -98,6 +167,18 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
     fun setNewFormulaPrice(newFormulaPrice: Double) {
         _uiState.update {
             it.copy(newFormulaPrice = newFormulaPrice)
+        }
+    }
+
+    fun setNewPricePerDays(newFormulaPricePerDays: Map<Int, Double>) {
+        _uiState.update {
+            it.copy(newFormulaPricePerDays = newFormulaPricePerDays)
+        }
+    }
+
+    fun setNewPricePerExtraDay(newPricePerExtraDay: Double) {
+        _uiState.update {
+            it.copy(newFormulaPricePerExtraDay = newPricePerExtraDay)
         }
     }
 
@@ -129,6 +210,12 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
     private suspend fun saveFormula(formula: Formula) {
         if (validateInput()) {
             formulaRepository.addFormula(formula)
+        }
+    }
+
+    private suspend fun updateFormula(formula: Formula) {
+        if (validateInput()) {
+            formulaRepository.updateFormula(formula)
         }
     }
 

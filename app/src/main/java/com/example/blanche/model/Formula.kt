@@ -1,10 +1,13 @@
 package com.example.blanche.model
 
 data class Formula(
-    var id: String,
-    var name: String,
-    var description: String,
-    //var nrOfDays: Int,
-    var price: Double,
-    var imageUrl: String,
+    val id: String,
+    val name: String,
+    val description: String,
+    val price: Double,
+    val imageUrl: String,
+    val hasDrinks: Boolean,
+    val hasFood: Boolean,
+    val pricePerDays: Map<Int, Double>,
+    val pricePerExtraDay: Double,
 )

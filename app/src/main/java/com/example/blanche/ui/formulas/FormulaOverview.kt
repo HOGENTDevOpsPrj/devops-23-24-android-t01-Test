@@ -2,6 +2,9 @@ package com.example.blanche.ui.formulas
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -12,8 +15,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.blanche.R
 import kotlinx.coroutines.launch
 
 @Composable
@@ -29,6 +35,8 @@ fun FormulaOverview(
 
     // use the ApiState
     val formulaApiState = formulaOverviewViewModel.formulaApiState
+
+    val showEditScreen = formulaOverviewViewModel.showEditFormulaScreen.collectAsState().value
 
     Box(modifier = modifier) {
         when (formulaApiState) {
@@ -49,13 +57,32 @@ fun FormulaOverview(
                 onFormulaNrOfDaysChanged = { formulaOverviewViewModel.setNewFormulaNrOfDays(it) },
                 onFormulaPriceChanged = { formulaOverviewViewModel.setNewFormulaPrice(it) },
                 onFormulaImageUrlChanged = { formulaOverviewViewModel.setNewFormulaImageUrl(it) },
-
                 onFormulaSaved = {
                     formulaOverviewViewModel.addFormula()
                     makeInvisible()
                 },
-                onDismissRequest = { makeInvisible() },
+                onDismissRequest = { makeInvisible },
             )
+        }
+
+        if (showEditScreen) {
+            Dialog(onDismissRequest = { }) {
+                EditFormula(
+                    formulaName = formulaOverviewState.newFormulaName,
+                    formulaDescription = formulaOverviewState.newFormulaDescription,
+                    pricePerDays = formulaOverviewState.newFormulaPricePerDays,
+                    pricePerExtraDay = formulaOverviewState.newFormulaPricePerExtraDay,
+                    onFormulaNameChanged = { formulaOverviewViewModel.setNewFormulaName(it) },
+                    onFormulaDescriptionChanged = { formulaOverviewViewModel.setNewFormulaDescription(it) },
+                    onPricePerDayChanged = { formulaOverviewViewModel.setNewPricePerDays(it) },
+                    onPricePerExtraDayChanged = { formulaOverviewViewModel.setNewPricePerExtraDay(it) },
+                    onFormulaSaved = {
+                        formulaOverviewViewModel.updateFormula()
+                        formulaOverviewViewModel.toggleEditFormulaScreen()
+                    },
+                    onDismissRequest = { formulaOverviewViewModel.toggleEditFormulaScreen() },
+                )
+            }
         }
     }
 }
@@ -66,11 +93,15 @@ fun FormulaListComponent(
     formulaOverviewState: FormulaOverviewState,
     formulaListState: FormulaListState,
 ) {
+    val viewModel: FormulaOverviewViewModel = viewModel(factory = FormulaOverviewViewModel.Factory,)
     val lazyListState = rememberLazyListState()
-    LazyColumn(state = lazyListState) {
+
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         items(formulaListState.formulaList) {
-            FormulaItem(name = it.name, price = it.price)
+            FormulaItem(formula = it, viewModel = viewModel)
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.smallSpacer)))
         }
+
     }
     val coroutineScope = rememberCoroutineScope()
 
@@ -83,8 +114,8 @@ fun FormulaListComponent(
     }
 }
 
-@Preview(showBackground = true, widthDp = 1000)
+/*@Preview(showBackground = true, widthDp = 1000)
 @Composable
 fun FormulaOverviewPreview() {
     FormulaOverview()
-}
+}*/

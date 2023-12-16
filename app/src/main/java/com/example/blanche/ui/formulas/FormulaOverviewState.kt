@@ -10,6 +10,10 @@ data class FormulaOverviewState(
     val newFormulaNrOfDays: Int = 0,
     val newFormulaPrice: Double = 0.0,
     val newFormulaImageUrl: String = "",
+    val newFormulaHasDrinks: Boolean = false,
+    val newFormulaHasFood: Boolean = false,
+    val newFormulaPricePerDays: Map<Int, Double> = hashMapOf(0 to 0.0),
+    val newFormulaPricePerExtraDay: Double = 0.0,
     val scrollActionIdx: Int = 0,
     val scrollToItemIndex: Int = 0,
 )
