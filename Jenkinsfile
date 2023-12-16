@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Build the Kotlin project
-                    sh 'gradle build'
+                    sh 'gradle build --info'
                 }
             }
         }
