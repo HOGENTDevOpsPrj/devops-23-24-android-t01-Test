@@ -45,9 +45,6 @@ pipeline {
         // Add more stages as needed (e.g., deployment)
     }
 
+}
 
-<<<<<<< Updated upstream
-}
-=======
-}
->>>>>>> Stashed changes
+
