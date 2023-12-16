@@ -18,7 +18,7 @@ pipeline {
         stage('Clean') {
             steps {
                 script {
-                    // Clean previous build artifacts
+                    // Clean previous build 
                     sh 'gradle clean'
                 }
             }
@@ -41,8 +41,6 @@ pipeline {
                 }
             }
         }
-
-        // Add more stages as needed (e.g., deployment)
     }
 
 }
