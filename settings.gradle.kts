@@ -3,7 +3,7 @@ buildscript {
          mavenCentral()
      }
      dependencies {
-          classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.60'
+          classpath 'org.jetbrains.kotlin.android:1.8.10'
      }
 }
 
