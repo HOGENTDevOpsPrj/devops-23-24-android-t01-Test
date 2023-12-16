@@ -1,3 +1,19 @@
+buildscript {
+     repositories {
+         mavenCentral()
+     }
+     dependencies {
+          classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.60'
+     }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    // this repo should be available in every subproject that uses kotlin
+    mavenCentral() // or jcentrer
+}
+
 pluginManagement {
     repositories {
         google()
@@ -15,3 +31,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Blanche"
 include(":app")
+
+
