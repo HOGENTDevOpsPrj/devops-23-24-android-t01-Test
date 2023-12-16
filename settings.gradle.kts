@@ -13,12 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-repositories {
-    // this repo should be available in every subproject that uses kotlin
-    mavenCentral() // or jcentrer
-}
-
-
 rootProject.name = "Blanche"
 include(":app")
 
