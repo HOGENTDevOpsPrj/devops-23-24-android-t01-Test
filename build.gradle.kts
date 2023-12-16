@@ -5,12 +5,35 @@ plugins {
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 kotlin {
     jvm {
-        sourceSets {
-            main {
-                kotlin.srcDirs += 'src/main/kotlin'
-            }
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    sourceSets {
+        main {
+            kotlin.srcDirs += 'src/main/kotlin'
         }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    // Add other dependencies as needed
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
