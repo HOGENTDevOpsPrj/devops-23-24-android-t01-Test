@@ -3,20 +3,26 @@ package com.example.blanche.data
 import android.content.Context
 import com.example.blanche.data.database.BlancheDb
 import com.example.blanche.network.formulas.FormulaApiService
+import com.example.blanche.network.reservations.ReservationApiService
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 interface AppContainer {
     val formulaRepository: FormulaRepository
+    val reservationRepository: ReservationRepository
 }
 
 // container that takes care of dependencies
 class DefaultAppContainer(private val context: Context) : AppContainer {
 
+    private val gson = GsonBuilder().setLenient().create()
     private val baseUrl = "http://10.0.2.2:65498"
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
     private val retrofitService: FormulaApiService by lazy {
@@ -25,5 +31,13 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     override val formulaRepository: FormulaRepository by lazy {
         CachingFormulaRepository(BlancheDb.getDatabase(context = context).formulaDao(), retrofitService)
+    }
+
+    private val reservationRetrofitService: ReservationApiService by lazy {
+        retrofit.create(ReservationApiService::class.java)
+    }
+
+    override val reservationRepository: ReservationRepository by lazy {
+        CachingReservationRepository(BlancheDb.getDatabase(context = context).reservationDao(), reservationRetrofitService)
     }
 }

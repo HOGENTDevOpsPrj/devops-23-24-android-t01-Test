@@ -9,19 +9,16 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FormulaDao {
+interface ReservationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: DbFormula)
+    suspend fun insert(reservation: DbReservation)
 
     @Update
-    suspend fun update(item: DbFormula)
+    suspend fun update(reservation: DbReservation)
 
     @Delete
-    suspend fun delete(item: DbFormula)
+    suspend fun delete(reservation: DbReservation)
 
-    @Query("SELECT * from formulas WHERE id = :id")
-    fun getItem(id: String): Flow<DbFormula>
-
-    @Query("SELECT * from formulas ORDER BY name ASC")
-    fun getAllItems(): Flow<List<DbFormula>>
+    @Query("SELECT * from reservations WHERE state = :state ORDER BY startDate")
+    fun getReservationsByState(state: Int): Flow<List<DbReservation>>
 }

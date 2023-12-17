@@ -2,15 +2,14 @@ package com.example.blanche.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.example.blanche.model.Formula
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 @Entity(tableName = "formulas")
-@TypeConverters(MapTypeConverter::class)
-data class dbFormula(
+@TypeConverters(
+    Converters.MapTypeConverter::class
+)
+data class DbFormula(
     @PrimaryKey
     val id: String,
     val name: String,
@@ -19,12 +18,11 @@ data class dbFormula(
     val imageUrl: String,
     val hasDrinks: Boolean,
     val hasFood: Boolean,
-    @TypeConverters(MapTypeConverter::class)
     val pricePerDays: Map<Int, Double>,
     val pricePerExtraDay: Double,
 )
 
-fun dbFormula.asDomainFormula(): Formula {
+fun DbFormula.asDomainFormula(): Formula {
     return Formula(
         this.id,
         this.name,
@@ -38,8 +36,8 @@ fun dbFormula.asDomainFormula(): Formula {
     )
 }
 
-fun Formula.asDbFormula(): dbFormula {
-    return dbFormula(
+fun Formula.asDbFormula(): DbFormula {
+    return DbFormula(
         id = this.id,
         name = this.name,
         description = this.description,
@@ -52,7 +50,7 @@ fun Formula.asDbFormula(): dbFormula {
     )
 }
 
-fun List<dbFormula>.asDomainFormulas(): List<Formula> {
+fun List<DbFormula>.asDomainFormulas(): List<Formula> {
     var formulaList = this.map {
         Formula(
             it.id,
@@ -67,17 +65,4 @@ fun List<dbFormula>.asDomainFormulas(): List<Formula> {
         )
     }
     return formulaList
-}
-
-object MapTypeConverter {
-
-    @TypeConverter
-    @JvmStatic
-    fun stringToMap(value: String): Map<Int, Double> =
-        Gson().fromJson(value,  object : TypeToken<Map<Int, Double>>() {}.type)
-
-    @TypeConverter
-    @JvmStatic
-    fun mapToString(value: Map<Int, Double>?): String =
-        if(value == null) "" else Gson().toJson(value)
 }

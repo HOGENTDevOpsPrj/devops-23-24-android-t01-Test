@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanche.ui.HomeScreen
 import com.example.blanche.ui.formulas.FormulaOverview
-import com.example.blanche.ui.reservations.CalendarView
+import com.example.blanche.ui.reservations.ReservationListScreen
 
 @Composable
 fun navComponent(
@@ -28,7 +28,7 @@ fun navComponent(
         }
         composable(route = NavigationOverview.Reservations.name) {
             Log.i("vm inspection", "Nav to reservations")
-            CalendarView()
+            ReservationListScreen()
         }
         composable(route = NavigationOverview.Formulas.name) {
             FormulaOverview(isAddingVisible = fabActionVisible, makeInvisible = fabResetAction)

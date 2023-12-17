@@ -1,15 +1,15 @@
 package com.example.blanche.model
 
-import java.util.Date
-
 data class Reservation(
-    var startDate: Date,
-    var endDate: Date,
-    var totalPrice: Double,
-    var state: String,
-    var numberOfPersons: Int,
-    var customer: Customer,
-    var invoices: List<Invoice>,
-    var formula: Formula,
-    var typeOfBeer: Beer,
+    val id: String,
+    val startDate: String,
+    val endDate: String,
+    val totalPrice: Double,
+    val state: Int,
+    val numberOfPersons: Int,
+    val customer: Customer,
+    //var items: List<Reservationitem>,
+    val invoices: List<Invoice>,
+    val formula: Formula,
+    val typeOfBeer: Beer?,
 )
