@@ -16,9 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-				
-                // Accept Android SDK licenses
-                sh 'yes | sdkmanager --licenses'				
+			
             }
         }
 
