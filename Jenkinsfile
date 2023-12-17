@@ -5,7 +5,7 @@ pipeline {
         GRADLE_HOME = tool 'GradleDevOps' 
         JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-17.0.9.0.9-2.el9.x86_64'
         ANDROID_HOME = "${env.ANDROID_HOME}"
-        PATH = "$JAVA_HOME/bin:$GRADLE_HOME/bin:$ANDROID_HOME/bin:$PATH"
+        PATH = "$JAVA_HOME/bin:$GRADLE_HOME/bin:$ANDROID_HOME/build-tools:$ANDROID_HOME/platforms:$ANDROID_HOME/platform-tools:$PATH"
     }
 
     stages {
