@@ -37,7 +37,7 @@ pipeline {
 
 		    sh 'chmod +x gradlew'
                     // Build the Kotlin project
-                    sh 'sudo ./gradlew build --debug'
+                    sh './gradlew build --debug'
                 }
             }
         }
