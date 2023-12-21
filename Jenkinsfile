@@ -34,7 +34,9 @@ pipeline {
                     echo "ANDROID_HOME location is: ${env.ANDROID_HOME}"  
                     echo 'Creating a properties files for Gradle to identify which Android SDK to use...'
                     sh "echo sdk.dir=${env.ANDROID_HOME} > local.properties" 
-		    sh "env"	
+		    sh "env"
+		    sh "cd /home/vagrant/AndroidSDK && ls -la"
+		   
 
 		    sh 'chmod +x gradlew'
                     // Build the Kotlin project
