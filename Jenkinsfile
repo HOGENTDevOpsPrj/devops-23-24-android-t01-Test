@@ -34,9 +34,9 @@ pipeline {
                     echo "ANDROID_HOME location is: ${env.ANDROID_HOME}"  
                     echo 'Creating a properties files for Gradle to identify which Android SDK to use...'
                     sh "echo sdk.dir=${env.ANDROID_HOME} > local.properties"
-		    sh "cd /var/AndroidSDK && ls -la"
 		   
 		    sh 'chmod +x gradlew'
+		    sh "chown -R jenkins:jenkins /var/lib/jenkins/workspace/AndroidApp"
                     // Build the Kotlin project
                     sh 'gradle build --no-daemon build -s'
                 }
