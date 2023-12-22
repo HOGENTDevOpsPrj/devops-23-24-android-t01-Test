@@ -5,6 +5,7 @@ import com.example.blanche.model.Customer
 import com.example.blanche.model.Formula
 import com.example.blanche.model.Invoice
 import com.example.blanche.model.Reservation
+import com.example.blanche.model.ReservationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
@@ -18,10 +19,11 @@ data class ApiReservation(
     val state: Int,
     val numberOfPersons: Int,
     val customer: Customer,
-    //val items: List<@Contextual Reservationitem>,
+    val items: List<ReservationItem>,
     val invoices: List<Invoice>,
     val formula: Formula,
     val typeOfBeer: Beer,
+    val notes: String,
 )
 
 fun Flow<List<ApiReservation>>.asDomainObjects(): Flow<List<Reservation>> {
@@ -41,10 +43,11 @@ fun List<ApiReservation>.asDomainObjects(): List<Reservation> {
             it.state,
             it.numberOfPersons,
             it.customer,
-           // it.items,
+            it.items,
             it.invoices,
             it.formula,
-            it.typeOfBeer
+            it.typeOfBeer,
+            it.notes
         )
     }
     return domainList

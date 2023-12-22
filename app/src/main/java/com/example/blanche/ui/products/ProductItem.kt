@@ -1,4 +1,4 @@
-package com.example.blanche.ui.formulas
+package com.example.blanche.ui.products
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -27,23 +27,27 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.blanche.R
-import com.example.blanche.model.Formula
+import com.example.blanche.model.Product
+import com.example.blanche.network.products.ApiProduct
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormulaItem(
+fun ProductItem(
     modifier: Modifier = Modifier,
-    formula: Formula,
-    viewModel: FormulaOverviewViewModel,
+    product: Product,
+    viewModel: ProductScreenOverview,
 ) {
     ElevatedCard {
         var expanded by rememberSaveable { mutableStateOf(false) }
@@ -73,18 +77,18 @@ fun FormulaItem(
             ) {
                 Row {
                     Text(
-                        text = formula.name,
+                        text = product.name,
                         modifier = Modifier
                             .padding(vertical = 5.dp)
                             .align(Alignment.CenterVertically),
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.bodyLarge,
                         textDecoration = TextDecoration.None,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(
                         onClick = {
-                            viewModel.toggleEditFormulaScreen()
-                            viewModel.setFormula(formula) },
+                            viewModel.toggleEditProductScreen()
+                            viewModel.setProduct(product) },
                         modifier = Modifier.align(Alignment.CenterVertically),
                     ) {
                         Icon(
@@ -95,7 +99,7 @@ fun FormulaItem(
                     }
                     IconButton(
                         onClick = {
-                            viewModel.deleteFormula(formula)
+                            viewModel.deleteProduct(product)
                         },
                         modifier = Modifier.align(Alignment.CenterVertically),
                     ) {
@@ -112,37 +116,41 @@ fun FormulaItem(
                     )
                 }
                 if (expanded) {
-                    Spacer(Modifier.height(4.dp))
                     Text(
-                        text = formula.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    formula.pricePerDays.forEach { e ->
-                        if (e.key == 1)
-                            Text(
-                                text = "${e.key} dag: ${e.value} €",
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        else
-                            Text(
-                                text = "${e.key} dagen: ${e.value} €",
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        text = "Prijs per extra dag: ${formula.pricePerExtraDay} €",
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-/*                    Text(
-                        text = formula.imageUrl,
+                        text = product.description,
                         style = MaterialTheme.typography.bodyMedium,
-                    )*/
+                    )
+
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "Huurprijs: ${product.price} €",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    /*                    Text(
+                                            text = formula.imageUrl,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                        )*/
                 }
             }
+
         }
     }
+
+    /*    val showEditScreen = viewModel.showEditFormulaScreen.collectAsState().value
+
+        if (showEditScreen) {
+            Dialog(onDismissRequest = { *//*TODO*//* }) {
+            ElevatedCard(
+
+            ) {
+                EditFormulaScreen(
+                    formula = formula,
+                    viewModel = viewModel,
+                    onNavigationUp = { viewModel.toggleEditFormulaScreen() }
+                )
+            }
+        }
+    }*/
 }
 
 @Composable
@@ -154,6 +162,64 @@ fun FormulaItemButton(expanded: Boolean, onClick: () -> Unit, modifier: Modifier
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = stringResource(R.string.expand_button_content_description),
+        )
+    }
+}
+
+@Composable
+fun EditProductScreen(
+    product: Product,
+    viewModel: ProductScreenOverview,
+    onNavigationUp: () -> Unit
+) {
+    var editedName by remember { mutableStateOf(product.name) }
+    var editedDescription by remember { mutableStateOf(product.description) }
+    var editedPrice by remember { mutableDoubleStateOf(product.price) }
+    var editedImageUrl by remember { mutableStateOf(product.imageUrl) }
+    var editedQuantity by remember { mutableStateOf(product.quantityInStock) }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        EditTextField(
+            value = editedName,
+            onValueChange = { editedName = it },
+            label = "Name"
+        )
+        EditTextField(
+            value = editedDescription,
+            onValueChange = { editedDescription = it },
+            label = "Description"
+        )
+        EditTextField(
+            value = editedPrice.toString(),
+            onValueChange = { editedPrice = it.toDouble() },
+            label = "Price"
+        )
+        EditTextField(
+            value = editedQuantity.toString(),
+            onValueChange = { editedQuantity = it.toInt() },
+            label = "Quantity"
+        )
+        EditTextField(
+            value = editedImageUrl,
+            onValueChange = { editedImageUrl = it },
+            label = "Image URL"
+        )
+
+        EditButton(
+            onClick = {
+                val editedProduct = product.copy(
+                    name = editedName,
+                    description = editedDescription,
+                    price = editedPrice,
+                    quantityInStock = editedQuantity,
+                    imageUrl = editedImageUrl,
+                )
+                viewModel.editProduct(editedProduct)
+                onNavigationUp()
+            }
         )
     }
 }
@@ -185,3 +251,28 @@ fun EditButton(onClick: () -> Unit) {
         Text("Save")
     }
 }
+
+
+/*@Preview
+@Composable
+fun ProductItemPreview() {
+    ProductItem(
+        name = "Product name",
+        description = "Product description",
+        quantityInStock = 5,
+        price = 50.0,
+        imageUrl = "dit_met_een_lange_url_voorstellen",
+        product = ApiProduct(
+            id = "id",
+            name = "name",
+            description = "description",
+            price = 50.0,
+            imageUrl = "imageUrl",
+            quantityInStock = 5,
+        ),
+        onClick = {},
+        onDeleteClick = {},
+        viewModel = ProductScreenOverview(),
+    )
+}*/
+

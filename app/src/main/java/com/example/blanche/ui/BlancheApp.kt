@@ -44,7 +44,7 @@ import com.example.blanche.ui.navigation.navComponent
 import com.example.blanche.ui.themes.BlancheTheme
 import com.example.blanche.ui.util.BlancheNavigationType
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalStdlibApi::class)
 @Composable
 fun BlancheApp(navigationType: BlancheNavigationType,
             navController: NavHostController = rememberNavController()
@@ -65,7 +65,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
     val goToFormulas = {  navController.navigate(NavigationOverview.Formulas.name) {launchSingleTop = true} }
 
     val currentScreenTitle = NavigationOverview.valueOf(
-        backStackEntry?.destination?.route ?: NavigationOverview.Start.name,
+        backStackEntry?.destination?.route?.substringBefore("/") ?: NavigationOverview.Start.name,
     ).title
 
     var isAddNewVisible by remember{ mutableStateOf(false) }
@@ -138,7 +138,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                     BlancheAppBottomBar(goHome, gotToReservations, goToFormulas)
                 },
                 floatingActionButton = {
-                    if (currentScreenTitle != NavigationOverview.valueOf(NavigationOverview.Reservations.name).title) {
+                    if (currentScreenTitle == NavigationOverview.valueOf(NavigationOverview.Formulas.name).title) {
                         FloatingActionButton(
                             onClick = { isAddNewVisible = !isAddNewVisible },
                             containerColor = MaterialTheme.colorScheme.onPrimaryContainer,

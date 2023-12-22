@@ -17,4 +17,12 @@
     <string name="navigation_rail">Navigate between items here</string>
     <string name="Reservations">Reservaties</string>
     <string name="Extras">Materiaal</string>
+    <string name="ReservationDetails">Reservatiedetails</string>
+    <string name="formule">Formule</string>
+    <string name="aantal_personen">Aantal personen</string>
+    <string name="totaalprijs">Totaalprijs</string>
+    <string name="datum">Datum</string>
+    <string name="periode">Periode</string>
+    <string name="type_bier">Type bier</string>
+    <string name="opmerkingen">Opmerkingen</string>
 </resources>

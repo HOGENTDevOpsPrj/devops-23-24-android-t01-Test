@@ -5,6 +5,7 @@ import com.example.blanche.model.Beer
 import com.example.blanche.model.Customer
 import com.example.blanche.model.Formula
 import com.example.blanche.model.Invoice
+import com.example.blanche.model.ReservationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.time.LocalDateTime
@@ -67,6 +68,18 @@ class Converters {
         @TypeConverter
         @JvmStatic
         fun beerToString(value: Beer?): String =
+            if(value == null) "" else Gson().toJson(value)
+    }
+
+    object ItemsListTypeConverter {
+        @TypeConverter
+        @JvmStatic
+        fun stringToItemsList(value: String): List<ReservationItem> =
+            Gson().fromJson(value,  object : TypeToken<List<ReservationItem>>() {}.type)
+
+        @TypeConverter
+        @JvmStatic
+        fun itemsListToString(value: List<ReservationItem>?): String =
             if(value == null) "" else Gson().toJson(value)
     }
 

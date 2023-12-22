@@ -8,11 +8,13 @@ import androidx.room.RoomDatabase
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = [DbFormula::class, DbReservation::class], version = 5, exportSchema = false)
+
+@Database(entities = [DbFormula::class, DbReservation::class, dbProduct::class], version = 10, exportSchema = false)
 abstract class BlancheDb : RoomDatabase() {
 
     abstract fun formulaDao(): FormulaDao
     abstract fun reservationDao(): ReservationDao
+    abstract fun productDao(): ProductDao
 
     companion object {
         @Volatile

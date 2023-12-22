@@ -1,9 +1,12 @@
 package com.example.blanche.model
 
-data class Reservationitem(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ReservationItem(
     var id: String,
     var reservationId: String,
-    var product: String,
+    var product: Product,
     var quantity: Int,
-    var price: Int,
+    var price: Double,
 )

@@ -18,6 +18,8 @@ interface ReservationRepository {
 
     suspend fun insertReservation(reservation: Reservation)
 
+    suspend fun updateReservation(reservation: Reservation)
+
     suspend fun refresh()
 }
 
@@ -25,8 +27,9 @@ class CachingReservationRepository(
     private val reservationDao: ReservationDao,
     private val reservationApiService: ReservationApiService
 ) : ReservationRepository {
+
     override fun getReservationsByState(state: Int): Flow<List<Reservation>> {
-        return reservationDao.getReservationsByState(0).map {
+        return reservationDao.getReservationsByState(state = 5).map {
             it.asDomainReservations()
         }.onEach {
             if (it.isEmpty()) {
@@ -39,18 +42,28 @@ class CachingReservationRepository(
         reservationDao.insert(reservation.asDbReservation())
     }
 
+    override suspend fun updateReservation(reservation: Reservation) {
+        reservationDao.update(reservation.asDbReservation())
+        try {
+            reservationApiService.updateReservation(reservation)
+        }
+        catch (e: Exception) {
+            Log.e("Error", "Error updating reservation in API: $e")
+        }
+    }
+
     override suspend fun refresh() {
         try {
             reservationApiService.getReservationsAsFlow().asDomainObjects().collect() {
                 value ->
-                println("$value")
+                println(value)
                 for (reservation in value) {
                     insertReservation(reservation)
                 }
             }
         }
         catch(e: SocketTimeoutException){
-            Log.i("Error", "er is iets mis")
+            Log.i("Error", "$e")
         }
     }
 }

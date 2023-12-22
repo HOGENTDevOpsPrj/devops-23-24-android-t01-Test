@@ -20,16 +20,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.blanche.model.Reservation
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReservationView(
     modifier: Modifier = Modifier,
-    reservation: Reservation
+    reservation: Reservation,
+    goToReservationDetails: () -> Unit
 ) {
     ElevatedCard(
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary),
-        onClick = { /*TODO*/ }
+        onClick = { goToReservationDetails() }
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -41,16 +44,26 @@ fun ReservationView(
                         stiffness = Spring.StiffnessMedium,
                     ),
                 )
-                .height(80.dp)
-                .padding(16.dp)
+                .padding(24.dp)
                 .fillMaxWidth()
         ) {
             Column {
                 Text(text = "${reservation.formula.name}")
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "${reservation.numberOfPersons} personen")
+                if (reservation.startDate == reservation.endDate) {
+                    Text(text = "${LocalDate.parse(reservation.startDate.take(10)).format(
+                        DateTimeFormatter.ofPattern("dd-MM-yyyy"))}")
+                } else {
+                    Text(text = "${LocalDate.parse(reservation.startDate.take(10)).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))} - ${LocalDate.parse(reservation.endDate.take(10)).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))}")
+                }
             }
-            Text(text = "${reservation.startDate.take(10)} - ${reservation.endDate.take(10)}")
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(text = "${reservation.numberOfPersons} personen")
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "${reservation.totalPrice} €")
+            }
         }
     }
     Spacer(modifier = Modifier.height(16.dp))

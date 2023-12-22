@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.blanche.ui.HomeScreen
 import com.example.blanche.ui.formulas.FormulaOverview
+import com.example.blanche.ui.reservations.ReservationDetailScreen
 import com.example.blanche.ui.reservations.ReservationListScreen
 
 @Composable
@@ -28,7 +31,13 @@ fun navComponent(
         }
         composable(route = NavigationOverview.Reservations.name) {
             Log.i("vm inspection", "Nav to reservations")
-            ReservationListScreen()
+            ReservationListScreen(navController = navController)
+        }
+        composable("ReservationDetails/{reservationId}", arguments = listOf(
+            navArgument("reservationId") { type = NavType.StringType }
+        )) { it ->
+            Log.i("vm inspection", "Nav to reservationdetail")
+            ReservationDetailScreen(it.arguments?.getString("reservationId")!!)
         }
         composable(route = NavigationOverview.Formulas.name) {
             FormulaOverview(isAddingVisible = fabActionVisible, makeInvisible = fabResetAction)
