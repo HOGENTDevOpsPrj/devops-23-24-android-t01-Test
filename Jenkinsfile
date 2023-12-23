@@ -42,7 +42,7 @@ pipeline {
 	            sh "cd /home/jenkins/AndroidSDK && ls -l"	
 			
                     // Build the Kotlin project
-                    sh 'gradle build --no-daemon build -s'
+                    sh 'gradle build'
                 }
             }
         }
