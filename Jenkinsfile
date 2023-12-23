@@ -39,7 +39,7 @@ pipeline {
 		    sh "chown -R jenkins:jenkins /var/lib/jenkins/workspace/AndroidApp"
 
 		    sh "env"
-	            sh "cd /var/AndroidSDK"	
+	            sh "cd /var/AndroidSDK && ls -l"	
 			
                     // Build the Kotlin project
                     sh 'gradle build --no-daemon build -s'
