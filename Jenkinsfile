@@ -27,6 +27,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+
+		    sh 'cd /vagrant/ansible && ./asdk.sh'
                     sh "export JAVA_HOME=${env.JAVA_HOME}"
                     echo "JAVA_HOME location is: ${env.JAVA_HOME}"
                     sh "export ANDROID_HOME=${env.ANDROID_HOME}"
