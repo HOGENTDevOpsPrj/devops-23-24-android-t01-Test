@@ -36,10 +36,9 @@ pipeline {
                     sh "echo sdk.dir=${env.ANDROID_HOME} > local.properties"
 		   
 		    sh 'chmod +x gradlew'
-		    sh "chown -R jenkins:jenkins /var/lib/jenkins/workspace/AndroidApp"
 
 		    sh "env"
-	            sh "cd /var/AndroidSDK && ls -l"	
+	            sh "cd /home/jenkins/AndroidSDK && ls -l"	
 			
                     // Build the Kotlin project
                     sh 'gradle build --no-daemon build -s'
