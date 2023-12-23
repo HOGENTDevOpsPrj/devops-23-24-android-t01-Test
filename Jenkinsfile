@@ -37,6 +37,10 @@ pipeline {
 		   
 		    sh 'chmod +x gradlew'
 		    sh "chown -R jenkins:jenkins /var/lib/jenkins/workspace/AndroidApp"
+
+		    sh "env"
+	            sh "cd /var/AndroidSDK"	
+			
                     // Build the Kotlin project
                     sh 'gradle build --no-daemon build -s'
                 }
