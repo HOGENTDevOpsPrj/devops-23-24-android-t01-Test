@@ -27,7 +27,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-	            sh 'yes | androidsdk --licenses'
                     sh "export JAVA_HOME=${env.JAVA_HOME}"
                     echo "JAVA_HOME location is: ${env.JAVA_HOME}"
                     sh "export ANDROID_HOME=${env.ANDROID_HOME}"
