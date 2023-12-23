@@ -12,12 +12,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-
-		sh "yes | androidsdk 'platforms;android-34'"
-		sh "yes | androidsdk 'build-tools;34.0.0'"
-		sh "yes | androidsdk 'platform-tools'" 
-		sh 'sudo mv -v /home/vagrant/AndroidSDK /var/'
-		sh 'sudo chmod -R 777 /var/AndroidSDK'
             }
         }
 
