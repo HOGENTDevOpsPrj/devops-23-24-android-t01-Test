@@ -63,6 +63,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
 
     val gotToReservations = { navController.navigate(NavigationOverview.Reservations.name) {launchSingleTop = true} }
     val goToFormulas = {  navController.navigate(NavigationOverview.Formulas.name) {launchSingleTop = true} }
+    val goToProduct = { navController.navigate(NavigationOverview.Extras.name) {launchSingleTop = true} }
 
     val currentScreenTitle = NavigationOverview.valueOf(
         backStackEntry?.destination?.route?.substringBefore("/") ?: NavigationOverview.Start.name,
@@ -95,14 +96,8 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                         currentScreenTitle = currentScreenTitle,
                     )
                 },
-                floatingActionButton = {
 
-                    FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible}) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
-                    }
-                },
-                //modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
-            ) { innerPadding ->
+             ) { innerPadding ->
                 navComponent(
                     navController = navController,
                     modifier = Modifier.padding(innerPadding),
@@ -114,7 +109,7 @@ fun BlancheApp(navigationType: BlancheNavigationType,
     else if(navigationType == BlancheNavigationType.BOTTOM_NAVIGATION) {
         if (!canNavigateBack) {
             navComponent(navController)
-            HomeScreen(gotToReservations, goToFormulas)
+            HomeScreen(gotToReservations, goToFormulas, goToProduct)
         }
         else {
             val image = painterResource(R.drawable.backgroundimage)
@@ -135,19 +130,9 @@ fun BlancheApp(navigationType: BlancheNavigationType,
                 },
                 bottomBar = {
 
-                    BlancheAppBottomBar(goHome, gotToReservations, goToFormulas)
+                    BlancheAppBottomBar(goHome, gotToReservations, goToFormulas, goToProduct)
                 },
-                floatingActionButton = {
-                    if (currentScreenTitle == NavigationOverview.valueOf(NavigationOverview.Formulas.name).title) {
-                        FloatingActionButton(
-                            onClick = { isAddNewVisible = !isAddNewVisible },
-                            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                        ) {
-                            Icon(Icons.Default.Add, contentDescription = "Add")
-                        }
-                    }
-                },
+
             ) { innerPadding ->
 
                 navComponent(navController, modifier = Modifier.padding(innerPadding))

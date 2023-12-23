@@ -80,7 +80,7 @@ fun DatePicker(
                     println(reformatter.format(selectedDate))
                     reservation?.startDate = reformatter.format(selectedDate)
                     reservation?.endDate = reformatter.format(selectedDate)
-                    reservationDetailViewModel.updateReservation(reservation)
+                    reservationDetailViewModel.setReservation(reservation)
                 }) {
                     Text(
                         text = "Bevestig",
@@ -101,7 +101,7 @@ fun DatePicker(
                 }
             },
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.error
+                containerColor = MaterialTheme.colorScheme.onPrimary
             ),
         ) {
             androidx.compose.material3.DatePicker(

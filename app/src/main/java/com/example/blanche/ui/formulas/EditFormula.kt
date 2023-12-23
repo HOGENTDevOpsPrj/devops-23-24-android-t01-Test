@@ -62,6 +62,7 @@ fun EditFormula(
                     onValueChange = onFormulaDescriptionChanged,
                     label = { Text("Beschrijving formule") },
                 )
+
                 Spacer(Modifier.height(dimensionResource(id = R.dimen.smallSpacer)))
                 pricePerDays.forEach { p ->
                     if (p.key == 1) {
@@ -69,7 +70,7 @@ fun EditFormula(
                             value = "${p.value}",
                             onValueChange = {
                                 val newPricePerdays = pricePerDays.toMutableMap()
-                                newPricePerdays.put(p.key, it.toDouble())
+                                newPricePerdays.put(p.key, it.toDoubleOrNull() ?: 0.0)
                                 onPricePerDayChanged(newPricePerdays) },
                             label = { Text("Prijs voor ${p.key} dag") },
                         )
@@ -80,7 +81,7 @@ fun EditFormula(
                             value = "${p.value}",
                             onValueChange = {
                                 val newPricePerdays = pricePerDays.toMutableMap()
-                                newPricePerdays.put(p.key, it.toDouble())
+                                newPricePerdays.put(p.key, it.toDoubleOrNull() ?: 0.0)
                                 onPricePerDayChanged(newPricePerdays) },
                             label = { Text("Prijs voor ${p.key} dagen") },
                         )
@@ -89,7 +90,7 @@ fun EditFormula(
                 }
                 OutlinedTextField(
                     value = pricePerExtraDay.toString(),
-                    onValueChange = { onPricePerExtraDayChanged(it.toDouble()) },
+                    onValueChange = { onPricePerExtraDayChanged(it.toDoubleOrNull() ?: 0.0) },
                     label = { Text("Prijs per extra dag") },
                 )
             }
@@ -101,14 +102,14 @@ fun EditFormula(
                 Spacer(Modifier.weight(1F))
                 TextButton(onClick = onDismissRequest) {
                     Text(
-                        text = "Cancel",
+                        text = "Annuleer",
                         color = Color.Black
                     )
                 }
                 Spacer(Modifier.width(dimensionResource(id = R.dimen.smallSpacer)))
                 TextButton(onClick = onFormulaSaved) {
                     Text(
-                        text = "Opslaan",
+                        text = "Bevestig",
                         color = Color.Black
                     )
                 }
@@ -121,6 +122,6 @@ fun EditFormula(
 @Composable
 fun EditFormulaPreview() {
     BlancheTheme {
-        EditFormula("todo", "descr", hashMapOf(0 to 0.0), 0.0, {}, {}, {}, {}, {}, { /* on dismiss */ })
+        EditFormula("todo", "descr",   hashMapOf(0 to 0.0), 0.0, {}, {}, {}, {}, {}, { /* on dismiss */ })
     }
 }

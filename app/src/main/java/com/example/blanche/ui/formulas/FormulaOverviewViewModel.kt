@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository) : ViewModel() {
+
     // use StateFlow (Flow: emits current state + any updates)
     /*
     * Note: uiState is a cold flow. Changes don't come in from above unless a
@@ -34,15 +35,34 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
     private val _showEditFormulaScreen = MutableStateFlow(false)
     val showEditFormulaScreen: StateFlow<Boolean> = _showEditFormulaScreen
 
+    private val _showAddFormulaScreen = MutableStateFlow(false)
+    val showAddFormulaScreen: StateFlow<Boolean> = _showAddFormulaScreen
+
     fun toggleEditFormulaScreen() {
         _showEditFormulaScreen.value = !_showEditFormulaScreen.value
+    }
+    fun toggleAddFormulaScreen() {
+        _showAddFormulaScreen.value = !_showAddFormulaScreen.value
+        _uiState.update { currentState ->
+            currentState.copy(
+                newFormulaName = "",
+                newFormulaDescription = "",
+                newFormulaPrice = 0.0,
+                newFormulaImageUrl = "",
+                newFormulaHasDrinks = false,
+                newFormulaHasFood = false,
+                newFormulaPricePerDays = mapOf(1 to 0.0, 2 to 0.0, 3 to 0.0),
+                newFormulaPricePerExtraDay = 0.0,
+                scrollActionIdx = currentState.scrollActionIdx.plus(1),
+                scrollToItemIndex = uiListState.value.formulaList.size,
+            )
+        }
     }
 
     fun setFormula(formula: Formula) {
         setFormulaId(formula.id)
         setNewFormulaName(formula.name)
         setNewFormulaDescription(formula.description)
-        setNewFormulaPrice(formula.price)
         setNewPricePerDays(formula.pricePerDays)
         setNewPricePerExtraDay(formula.pricePerExtraDay)
     }
@@ -51,7 +71,7 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
   * Note: uiListState is a hot flow (.stateIn makes it so) --> it updates given a scope (viewmodelscope)
   * when no updates are required (lifecycle) the subscription is stopped after a timeout
   * */
-    lateinit var uiListState: StateFlow<FormulaListState>
+    var uiListState: StateFlow<FormulaListState> = MutableStateFlow(FormulaListState())
 
     // keeping the state of the api request
     var formulaApiState: FormulaApiState by mutableStateOf(FormulaApiState.Loading)
@@ -62,30 +82,11 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
         getRepoFormulas()
     }
 
-    fun editFormula(formula: Formula){
-        viewModelScope.launch {
-            formulaRepository.updateFormula(formula)
-        }
-    }
-
     fun deleteFormula(formula: Formula){
         viewModelScope.launch {
             formulaRepository.deleteFormula(formula)
         }
     }
-/*
-    var showDeleteConfirmDialog by mutableStateOf(false)
-        private set
-
-    fun confirmDeleteFormula(formula: Formula){
-        showDeleteConfirmDialog = true
-    }
-
-    fun cancelDeleteFormula(){
-        showDeleteConfirmDialog = false
-    }
-
-    */
 
     fun addFormula() {
         // saving the new task (to db? to network? --> doesn't matter
@@ -95,7 +96,6 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
                     _uiState.value.newFormulaId,
                     _uiState.value.newFormulaName,
                     _uiState.value.newFormulaDescription,
-                    _uiState.value.newFormulaPrice,
                     _uiState.value.newFormulaImageUrl,
                     _uiState.value.newFormulaHasDrinks,
                     _uiState.value.newFormulaHasFood,
@@ -108,11 +108,10 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
             currentState.copy(
                 newFormulaName = "",
                 newFormulaDescription = "",
-                newFormulaPrice = 0.0,
                 newFormulaImageUrl = "",
                 newFormulaHasDrinks = false,
                 newFormulaHasFood = false,
-                newFormulaPricePerDays = mapOf(0 to 0.0),
+                newFormulaPricePerDays = mapOf(0 to 0.0, 1 to 0.0, 2 to 0.0),
                 newFormulaPricePerExtraDay = 0.0,
                 scrollActionIdx = currentState.scrollActionIdx.plus(1),
                 scrollToItemIndex = uiListState.value.formulaList.size,
@@ -127,7 +126,6 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
                     _uiState.value.newFormulaId,
                     _uiState.value.newFormulaName,
                     _uiState.value.newFormulaDescription,
-                    _uiState.value.newFormulaPrice,
                     _uiState.value.newFormulaImageUrl,
                     _uiState.value.newFormulaHasDrinks,
                     _uiState.value.newFormulaHasFood,
@@ -135,7 +133,9 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
                     _uiState.value.newFormulaPricePerExtraDay,
                 ),
             )
+
         }
+
     }
 
     private fun validateInput(): Boolean {
@@ -158,17 +158,6 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
         }
     }
 
-    fun setNewFormulaNrOfDays(newFormulaNrOfDays: Int) {
-        _uiState.update {
-            it.copy(newFormulaNrOfDays = newFormulaNrOfDays)
-        }
-    }
-
-    fun setNewFormulaPrice(newFormulaPrice: Double) {
-        _uiState.update {
-            it.copy(newFormulaPrice = newFormulaPrice)
-        }
-    }
 
     fun setNewPricePerDays(newFormulaPricePerDays: Map<Int, Double>) {
         _uiState.update {
@@ -182,24 +171,18 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
         }
     }
 
-    fun setNewFormulaImageUrl(newFormulaImageUrl: String) {
-        _uiState.update {
-            it.copy(newFormulaImageUrl = newFormulaImageUrl)
-        }
-    }
-
-    // this
     private fun getRepoFormulas() {
         try {
-            viewModelScope.launch { formulaRepository.refresh() }
+            viewModelScope.launch {
 
-            uiListState = formulaRepository.getFormulas().map { FormulaListState(it) }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = FormulaListState(),
-                )
-            formulaApiState = FormulaApiState.Success
+                uiListState = formulaRepository.getFormulas().map { FormulaListState(it) }
+                    .stateIn(
+                        scope = viewModelScope,
+                        started = SharingStarted.WhileSubscribed(5_000L),
+                        initialValue = FormulaListState(),
+                    )
+                formulaApiState = FormulaApiState.Success
+            }
         } catch (e: IOException) {
             // show a toast? save a log on firebase? ...
             // set the error state
@@ -210,14 +193,17 @@ class FormulaOverviewViewModel(private val formulaRepository: FormulaRepository)
     private suspend fun saveFormula(formula: Formula) {
         if (validateInput()) {
             formulaRepository.addFormula(formula)
+            getRepoFormulas()
         }
     }
 
     private suspend fun updateFormula(formula: Formula) {
         if (validateInput()) {
             formulaRepository.updateFormula(formula)
+
         }
     }
+
 
     // object to tell the android framework how to handle the parameter of the viewmodel
     companion object {

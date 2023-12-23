@@ -42,7 +42,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.blanche.R
 import com.example.blanche.ui.formulas.FormulaOverviewViewModel
 
@@ -50,20 +52,23 @@ import com.example.blanche.ui.formulas.FormulaOverviewViewModel
 @Composable
 fun ReservationDetailScreen(
     reservationId: String,
+    navController: NavController,
     reservationListViewModel: ReservationListViewModel = viewModel(factory = ReservationListViewModel.Factory),
     reservationDetailViewModel: ReservationDetailViewModel = viewModel(factory = ReservationDetailViewModel.Factory),
     formulaOverviewViewModel: FormulaOverviewViewModel = viewModel(factory = FormulaOverviewViewModel.Factory),
 ) {
-    val reservationListState by reservationListViewModel.uiListState.collectAsState()
-    var reservation = reservationListState.reservationList.find { reservation -> reservation.id == reservationId }
+    val reservationListState by reservationListViewModel.uiListState.collectAsStateWithLifecycle()
+    val reservation = reservationListState.reservationList.find { reservation -> reservation.id == reservationId }
     val formulaListState by formulaOverviewViewModel.uiListState.collectAsState()
     val formulas = formulaListState.formulaList
 
     val extraItems = remember {reservation?.items?.toMutableStateList()}
-    val reservationDetailUiState by reservationDetailViewModel.uiState.collectAsState()
+    val reservationDetailUiState by reservationDetailViewModel.uiState.collectAsStateWithLifecycle()
 
     var selectedFormula by remember { mutableStateOf(formulas.find { f -> f.name ==  reservation?.formula?.name}) }
-    var number by remember { mutableStateOf(reservation?.numberOfPersons.toString()) }
+    var numberOfPersons by remember { mutableStateOf(reservation?.numberOfPersons.toString()) }
+    var beerType by remember { mutableStateOf(reservation?.typeOfBeer?.name ?: "") }
+    var totalPrice by remember { mutableStateOf(reservation?.totalPrice.toString()) }
 
     Column(
         modifier = Modifier
@@ -98,7 +103,7 @@ fun ReservationDetailScreen(
                         onClick = {
                             selectedFormula = formula
                             reservation?.formula = formula
-                            reservationDetailViewModel.updateReservation(reservation!!)
+                            reservationDetailViewModel.setReservation(reservation!!)
                             reservationDetailViewModel.dismissDropDown()
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -107,22 +112,21 @@ fun ReservationDetailScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        if (reservation?.startDate == reservation?.endDate) {
+        if ((reservation?.startDate == reservation?.endDate) && reservation != null) {
             DatePicker(
-                reservation = reservation!!
+                reservation = reservation
             )
-        } else if (reservation?.startDate!! < reservation?.endDate!!) {
+        } else if (reservation != null) {
             DateRangePicker(
-                reservation = reservation!!
+                reservation = reservation
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = number,
+            value = numberOfPersons,
             onValueChange = {
-                number = it
-                reservation.numberOfPersons = it.toInt()
-                reservationDetailViewModel.updateReservation(reservation!!)
+                numberOfPersons = it
+                reservation?.numberOfPersons = it.toIntOrNull() ?: 0
             },
             label = { Text(stringResource(R.string.aantal_personen)) },
             modifier = Modifier.fillMaxWidth()
@@ -130,27 +134,35 @@ fun ReservationDetailScreen(
         if (selectedFormula?.hasDrinks == true) {
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = if (reservation.typeOfBeer?.name != null) "${reservation?.typeOfBeer?.name}" else "",
-                onValueChange = {},
+                value = beerType,
+                onValueChange = {
+                    beerType = it
+                    reservation?.typeOfBeer?.name = it
+                },
                 label = { Text(stringResource(R.string.type_bier)) },
                 modifier = Modifier.fillMaxWidth()
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = "${reservation?.totalPrice} €",
-            onValueChange = {},
+            value = totalPrice,
+            onValueChange = {
+                totalPrice = it
+                reservation?.totalPrice = it.toDouble()
+            },
             label = { Text(stringResource(R.string.totaalprijs)) },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = "${reservation?.notes}",
-            onValueChange = {},
-            label = { Text(stringResource(R.string.opmerkingen)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-        if (!extraItems?.isEmpty()!!) {
+        if(reservation?.notes != null) {
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = "${reservation.notes}",
+                onValueChange = {},
+                label = { Text(stringResource(R.string.opmerkingen)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        if (extraItems != null && !extraItems.isEmpty()) {
             Spacer(modifier = Modifier.height(20.dp))
             Text(text = "Extra materiaal", style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
@@ -172,7 +184,7 @@ fun ReservationDetailScreen(
                             IconButton(onClick = {
                                 extraItems.remove(it)
                                 reservation?.items = extraItems
-                                reservationDetailViewModel.updateReservation(reservation!!)
+                                reservationDetailViewModel.setReservation(reservation!!)
                             }) {
                                 Icon(
                                     Icons.Default.Close,
@@ -225,7 +237,11 @@ fun ReservationDetailScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             ElevatedButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    reservation?.state = 1
+                    reservationDetailViewModel.setReservation(reservation!!)
+                    navController.navigate("reservations")
+                },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 shape = RoundedCornerShape(5.dp)
             ) {

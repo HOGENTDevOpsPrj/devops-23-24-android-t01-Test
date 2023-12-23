@@ -3,12 +3,9 @@ package com.example.blanche.data
 import android.content.Context
 import com.example.blanche.data.database.BlancheDb
 import com.example.blanche.network.formulas.FormulaApiService
+import com.example.blanche.network.products.ProductApiService
 import com.example.blanche.network.reservations.ReservationApiService
 import com.google.gson.GsonBuilder
-import com.example.blanche.network.products.ProductApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -23,7 +20,7 @@ interface AppContainer {
 class DefaultAppContainer(private val context: Context) : AppContainer {
 
     private val gson = GsonBuilder().setLenient().create()
-    private val baseUrl = "http://10.0.2.2:65498"
+    private val baseUrl = "https://compucoast.myqnapcloud.com"
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(ScalarsConverterFactory.create())

@@ -29,12 +29,13 @@ class CachingReservationRepository(
 ) : ReservationRepository {
 
     override fun getReservationsByState(state: Int): Flow<List<Reservation>> {
-        return reservationDao.getReservationsByState(state = 5).map {
+        return reservationDao.getReservationsByState(state).map {
             it.asDomainReservations()
         }.onEach {
-            if (it.isEmpty()) {
+            println(it.size)
+            /*if (it.isEmpty()) {
                 refresh()
-            }
+            }*/
         }
     }
 
@@ -56,10 +57,10 @@ class CachingReservationRepository(
         try {
             reservationApiService.getReservationsAsFlow().asDomainObjects().collect() {
                 value ->
-                println(value)
                 for (reservation in value) {
                     insertReservation(reservation)
                 }
+                getReservationsByState(0)
             }
         }
         catch(e: SocketTimeoutException){

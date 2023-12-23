@@ -23,7 +23,7 @@ data class ApiReservation(
     val invoices: List<Invoice>,
     val formula: Formula,
     val typeOfBeer: Beer,
-    val notes: String,
+    val notes: String?,
 )
 
 fun Flow<List<ApiReservation>>.asDomainObjects(): Flow<List<Reservation>> {

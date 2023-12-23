@@ -18,5 +18,5 @@ interface ReservationApiService {
 }
 
 fun ReservationApiService.getReservationsAsFlow(): Flow<List<ApiReservation>> = flow {
-    emit(getReservationsByState(state = 5))
+    emit(getReservationsByState(state = 0))
 }

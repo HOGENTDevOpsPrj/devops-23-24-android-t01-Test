@@ -3,7 +3,7 @@ package com.example.blanche.network.formulas
 import com.example.blanche.model.Formula
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
+ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -17,11 +17,8 @@ interface FormulaApiService {
     @GET("/api/formula")
     suspend fun getFormulas(): List<ApiFormula>
 
-    @GET("/api/formula/{id}")
-    suspend fun getFormula(@Path("id") id: String): ApiFormula
-
     @POST("/api/formula")
-    suspend fun addFormula(@Body formula: ApiFormula)
+    suspend fun addFormula(@Body formula: ApiFormula): Response<String>
 
     @PUT("/api/formula/{id}")
     suspend fun updateFormula(@Path("id") id: String, @Body formula: Formula): Response<Unit>

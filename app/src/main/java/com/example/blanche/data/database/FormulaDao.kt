@@ -19,6 +19,10 @@ interface FormulaDao {
     @Delete
     suspend fun delete(item: DbFormula)
 
+
+    @Query("DELETE from formulas")
+    suspend fun deleteAll()
+
     @Query("SELECT * from formulas WHERE id = :id")
     fun getItem(id: String): Flow<DbFormula>
 

@@ -16,6 +16,7 @@ data class FormulaOverviewState(
     val newFormulaPricePerExtraDay: Double = 0.0,
     val scrollActionIdx: Int = 0,
     val scrollToItemIndex: Int = 0,
+    var isAddMode: Boolean = false,
 )
 
 data class FormulaListState(val formulaList: List<Formula> = listOf())

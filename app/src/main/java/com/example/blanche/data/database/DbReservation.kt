@@ -32,9 +32,9 @@ data class DbReservation(
     val customer: Customer = Customer("", "", "", Address("", "", "", "", ""), EmailAddress("")),
     val items: List<ReservationItem> = emptyList(),
     val invoices: List<Invoice> = emptyList(),
-    val formula: Formula = Formula("", "", "", 0.0, "", false, false, hashMapOf(0 to 0.0), 0.0),
+    val formula: Formula = Formula("", "", "",  "", false, false, hashMapOf(0 to 0.0), 0.0),
     val typeOfBeer: Beer? = Beer("", "", 0.0),
-    val notes: String = "",
+    val notes: String? = "",
 )
 
 fun DbReservation.asDomainReservation(): Reservation {

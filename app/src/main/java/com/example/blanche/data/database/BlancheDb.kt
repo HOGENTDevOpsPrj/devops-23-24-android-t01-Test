@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
  * Database class with a singleton Instance object.
  */
 
-@Database(entities = [DbFormula::class, DbReservation::class, dbProduct::class], version = 10, exportSchema = false)
+@Database(entities = [DbFormula::class, DbReservation::class, dbProduct::class], version = 12, exportSchema = false)
 abstract class BlancheDb : RoomDatabase() {
 
     abstract fun formulaDao(): FormulaDao

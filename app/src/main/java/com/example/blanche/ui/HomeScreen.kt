@@ -28,7 +28,7 @@ import com.example.blanche.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(goToReservations: () -> Unit, goToFormulas: () -> Unit) {
+fun HomeScreen(goToReservations: () -> Unit, goToFormulas: () -> Unit, goToProduct: () -> Unit) {
     Image(
         painter = painterResource(R.drawable.logoblanchezwart),
         contentDescription = null,
@@ -63,7 +63,7 @@ fun HomeScreen(goToReservations: () -> Unit, goToFormulas: () -> Unit) {
             }
         }
         ElevatedCard(
-            onClick = { /*TODO*/ },
+            onClick = goToProduct,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 12.dp)
@@ -114,5 +114,5 @@ fun HomeScreen(goToReservations: () -> Unit, goToFormulas: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun HomePagePreview() {
-    HomeScreen(goToReservations = {}, goToFormulas = {})
+    HomeScreen(goToReservations = {}, goToFormulas = {}, goToProduct = {})
 }

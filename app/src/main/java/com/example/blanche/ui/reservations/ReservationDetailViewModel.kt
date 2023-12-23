@@ -27,6 +27,8 @@ class ReservationDetailViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ReservationDetailState())
     val uiState: StateFlow<ReservationDetailState> = _uiState.asStateFlow()
+/*    protected val viewModelSupervisor = SupervisorJob()
+    protected val viewModelScope = CoroutineScope(viewModelSupervisor)*/
 
     private val reservationId: String = savedStateHandle["reservationId"]!!
 
@@ -43,9 +45,20 @@ class ReservationDetailViewModel(
         _uiState.update { it.copy(showFormulaDropDown = false) }
     }
 
-    fun updateReservation(reservation: Reservation){
+    fun setReservation(reservation: Reservation) {
+        _uiState.update {
+            it.copy(reservation = reservation)
+        }
+        viewModelScope.launch {
+            updateReservation(reservation)
+            reservationRepository.refresh()
+        }
+    }
+
+    private suspend fun updateReservation(reservation: Reservation) {
         _uiState.update { it.copy(reservation = reservation) }
         viewModelScope.launch {
+            reservationRepository.refresh()
             reservationRepository.updateReservation(reservation)
         }
     }

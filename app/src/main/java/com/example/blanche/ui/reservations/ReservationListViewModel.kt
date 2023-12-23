@@ -34,11 +34,13 @@ class ReservationListViewModel(
         getRepoReservations()
     }
 
-    private fun getRepoReservations()  {
+    fun getRepoReservations()  {
         try {
-            viewModelScope.launch { reservationRepository.refresh() }
+            viewModelScope.launch {
+                reservationRepository.refresh()
+            }
 
-            uiListState = reservationRepository.getReservationsByState(state = 5).map { ReservationListState(it) }
+            uiListState = reservationRepository.getReservationsByState(state = _uiState.value.reservationState).map { ReservationListState(it) }
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(1_000L),

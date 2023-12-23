@@ -25,7 +25,12 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BlancheAppBottomBar(goHome: () -> Unit, goToReservations: () -> Unit, goToFormulas: () -> Unit) {
+fun BlancheAppBottomBar(
+    goHome: () -> Unit,
+    goToReservations: () -> Unit,
+    goToFormulas: () -> Unit,
+    goToProduct:() -> Unit)
+{
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.outlineVariant,
         contentColor = MaterialTheme.colorScheme.surface,
@@ -56,7 +61,7 @@ fun BlancheAppBottomBar(goHome: () -> Unit, goToReservations: () -> Unit, goToFo
                     )
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = goHome) {
+                    IconButton(onClick = goToProduct) {
                         Icon(
                             Icons.Filled.AddToPhotos,
                             contentDescription = "navigate to extra material screen"
@@ -87,5 +92,5 @@ fun BlancheAppBottomBar(goHome: () -> Unit, goToReservations: () -> Unit, goToFo
 @Preview
 @Composable
 fun BlancheAppBottomBarPreview() {
-    BlancheAppBottomBar(goHome = {}, goToReservations = {}, goToFormulas = {})
+    BlancheAppBottomBar(goHome = {}, goToReservations = {}, goToFormulas = {}, goToProduct = {})
 }

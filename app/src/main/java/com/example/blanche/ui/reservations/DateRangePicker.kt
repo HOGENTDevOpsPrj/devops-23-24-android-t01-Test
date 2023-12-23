@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.blanche.R
 import com.example.blanche.model.Reservation
 import java.text.SimpleDateFormat
@@ -36,20 +37,23 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateRangePicker(reservation: Reservation) {
+fun DateRangePicker(
+    reservation: Reservation,
+    reservationDetailViewModel: ReservationDetailViewModel = viewModel(factory = ReservationDetailViewModel.Factory),
+) {
     var showDatePicker by remember {
         mutableStateOf(false)
     }
-    val startDate = Calendar.getInstance()
+    var startDate = Calendar.getInstance()
     startDate.set(
-        LocalDate.parse(reservation?.startDate?.take(10)).year,
-        LocalDate.parse(reservation?.startDate?.take(10)).monthValue - 1,
+        LocalDate.parse(reservation?.startDate?.take(10)).year - 1,
+        LocalDate.parse(reservation?.startDate?.take(10)).monthValue,
         LocalDate.parse(reservation?.startDate?.take(10)).dayOfYear
     )
     val endDate = Calendar.getInstance()
     endDate.set(
-        LocalDate.parse(reservation?.endDate?.take(10)).year,
-        LocalDate.parse(reservation?.endDate?.take(10)).monthValue - 1,
+        LocalDate.parse(reservation?.endDate?.take(10)).year - 1,
+        LocalDate.parse(reservation?.endDate?.take(10)).monthValue,
         LocalDate.parse(reservation?.endDate?.take(10)).dayOfYear
     )
     var datePickerState = rememberDateRangePickerState(
@@ -60,6 +64,7 @@ fun DateRangePicker(reservation: Reservation) {
         mutableLongStateOf(startDate.timeInMillis)
     }
     val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
+    val reformatter = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
 
     if (!showDatePicker) {
         OutlinedTextField(
@@ -90,7 +95,11 @@ fun DateRangePicker(reservation: Reservation) {
             confirmButton = {
                 TextButton(onClick = {
                     showDatePicker = false
-                    //selectedDateRange = datePickerState.selectedDateMillis!!
+                    startDate.timeInMillis = datePickerState.selectedStartDateMillis!!
+                    endDate.timeInMillis = datePickerState.selectedEndDateMillis!!
+                    reservation?.startDate = reformatter.format(startDate.timeInMillis)
+                    reservation?.endDate = reformatter.format(endDate.timeInMillis)
+                    reservationDetailViewModel.setReservation(reservation)
                 }) {
                     Text(
                         text = "Bevestig",
