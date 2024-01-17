@@ -42,9 +42,9 @@ fun DatePicker(
     }
     val calendar = Calendar.getInstance()
     calendar.set(
-        LocalDate.parse(reservation?.startDate?.take(10)).year - 1,
-        LocalDate.parse(reservation?.startDate?.take(10)).monthValue,
-        LocalDate.parse(reservation?.startDate?.take(10)).dayOfYear
+        LocalDate.parse(reservation.startDate?.take(10)).year,
+        LocalDate.parse(reservation.startDate?.take(10)).monthValue - 1,
+        LocalDate.parse(reservation.startDate?.take(10)).dayOfYear
     )
     var datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar.timeInMillis,)
     var selectedDate by remember {
@@ -83,7 +83,7 @@ fun DatePicker(
                     reservationDetailViewModel.setReservation(reservation)
                 }) {
                     Text(
-                        text = "Bevestig",
+                        text = stringResource(R.string.bevestig),
                         color = Color.Black,
                         style = MaterialTheme.typography.bodyLarge,
                     )
@@ -94,7 +94,7 @@ fun DatePicker(
                     showDatePicker = false
                 }) {
                     Text(
-                        text = "Annuleer",
+                        text = stringResource(R.string.annuleer),
                         color = Color.Black,
                         style = MaterialTheme.typography.bodyLarge,
                     )

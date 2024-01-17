@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.example.blanche.R
@@ -77,11 +78,11 @@ fun CreateProduct(
                 Row {
                     Spacer(Modifier.weight(1F))
                     TextButton(onClick = onDismissRequest) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.annuleer))
                     }
                     Spacer(Modifier.width(dimensionResource(id = R.dimen.smallSpacer)))
                     TextButton(onClick = onProductSaved) {
-                        Text("Save")
+                        Text(stringResource(R.string.bevestig))
                     }
                 }
             }

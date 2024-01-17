@@ -21,6 +21,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     private val gson = GsonBuilder().setLenient().create()
     private val baseUrl = "https://compucoast.myqnapcloud.com"
+    //private val baseUrl = "http://10.0.2.2:65498"
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(ScalarsConverterFactory.create())

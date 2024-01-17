@@ -25,4 +25,6 @@
     <string name="periode">Periode</string>
     <string name="type_bier">Type bier</string>
     <string name="opmerkingen">Opmerkingen</string>
+    <string name="annuleer">Annuleer</string>
+    <string name="bevestig">Bevestig</string>
 </resources>

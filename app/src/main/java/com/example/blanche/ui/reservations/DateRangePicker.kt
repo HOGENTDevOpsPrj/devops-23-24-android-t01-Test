@@ -46,14 +46,14 @@ fun DateRangePicker(
     }
     var startDate = Calendar.getInstance()
     startDate.set(
-        LocalDate.parse(reservation?.startDate?.take(10)).year - 1,
-        LocalDate.parse(reservation?.startDate?.take(10)).monthValue,
+        LocalDate.parse(reservation?.startDate?.take(10)).year,
+        LocalDate.parse(reservation?.startDate?.take(10)).monthValue - 1,
         LocalDate.parse(reservation?.startDate?.take(10)).dayOfYear
     )
     val endDate = Calendar.getInstance()
     endDate.set(
-        LocalDate.parse(reservation?.endDate?.take(10)).year - 1,
-        LocalDate.parse(reservation?.endDate?.take(10)).monthValue,
+        LocalDate.parse(reservation?.endDate?.take(10)).year,
+        LocalDate.parse(reservation?.endDate?.take(10)).monthValue - 1,
         LocalDate.parse(reservation?.endDate?.take(10)).dayOfYear
     )
     var datePickerState = rememberDateRangePickerState(
@@ -102,7 +102,7 @@ fun DateRangePicker(
                     reservationDetailViewModel.setReservation(reservation)
                 }) {
                     Text(
-                        text = "Bevestig",
+                        text = stringResource(R.string.bevestig),
                         color = Color.Black,
                         style = MaterialTheme.typography.bodyLarge,
                     )
@@ -113,7 +113,7 @@ fun DateRangePicker(
                     showDatePicker = false
                 }) {
                     Text(
-                        text = "Annuleer",
+                        text = stringResource(R.string.annuleer),
                         color = Color.Black,
                         style = MaterialTheme.typography.bodyLarge,
                     )

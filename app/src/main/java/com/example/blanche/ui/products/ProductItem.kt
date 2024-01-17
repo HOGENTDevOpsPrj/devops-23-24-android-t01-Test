@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -27,20 +28,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.blanche.R
 import com.example.blanche.model.Product
-import com.example.blanche.network.products.ApiProduct
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,14 +70,15 @@ fun ProductItem(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(16.dp),
+                    .padding(16.dp)
             ) {
-                Row {
+                Row(modifier = Modifier.height(60.dp)) {
                     Text(
                         text = product.name,
                         modifier = Modifier
                             .padding(vertical = 5.dp)
-                            .align(Alignment.CenterVertically),
+                            .align(Alignment.Top)
+                            .width(200.dp),
                         style = MaterialTheme.typography.bodyLarge,
                         textDecoration = TextDecoration.None,
                     )
@@ -89,11 +87,11 @@ fun ProductItem(
                         onClick = {
                             viewModel.toggleEditProductScreen()
                             viewModel.setProduct(product) },
-                        modifier = Modifier.align(Alignment.CenterVertically),
+                        modifier = Modifier.align(Alignment.Top),
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Edit,
-                            modifier = Modifier.align(Alignment.CenterVertically),
+                            modifier = Modifier.align(Alignment.Top),
                             contentDescription = stringResource(R.string.edit_formula_content_description),
                         )
                     }
@@ -101,7 +99,7 @@ fun ProductItem(
                         onClick = {
                             viewModel.deleteProduct(product)
                         },
-                        modifier = Modifier.align(Alignment.CenterVertically),
+                        modifier = Modifier.align(Alignment.Top),
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
@@ -162,64 +160,6 @@ fun FormulaItemButton(expanded: Boolean, onClick: () -> Unit, modifier: Modifier
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = stringResource(R.string.expand_button_content_description),
-        )
-    }
-}
-
-@Composable
-fun EditProductScreen(
-    product: Product,
-    viewModel: ProductScreenOverview,
-    onNavigationUp: () -> Unit
-) {
-    var editedName by remember { mutableStateOf(product.name) }
-    var editedDescription by remember { mutableStateOf(product.description) }
-    var editedPrice by remember { mutableDoubleStateOf(product.price) }
-    var editedImageUrl by remember { mutableStateOf(product.imageUrl) }
-    var editedQuantity by remember { mutableStateOf(product.quantityInStock) }
-
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        EditTextField(
-            value = editedName,
-            onValueChange = { editedName = it },
-            label = "Name"
-        )
-        EditTextField(
-            value = editedDescription,
-            onValueChange = { editedDescription = it },
-            label = "Description"
-        )
-        EditTextField(
-            value = editedPrice.toString(),
-            onValueChange = { editedPrice = it.toDouble() },
-            label = "Price"
-        )
-        EditTextField(
-            value = editedQuantity.toString(),
-            onValueChange = { editedQuantity = it.toInt() },
-            label = "Quantity"
-        )
-        EditTextField(
-            value = editedImageUrl,
-            onValueChange = { editedImageUrl = it },
-            label = "Image URL"
-        )
-
-        EditButton(
-            onClick = {
-                val editedProduct = product.copy(
-                    name = editedName,
-                    description = editedDescription,
-                    price = editedPrice,
-                    quantityInStock = editedQuantity,
-                    imageUrl = editedImageUrl,
-                )
-                viewModel.editProduct(editedProduct)
-                onNavigationUp()
-            }
         )
     }
 }

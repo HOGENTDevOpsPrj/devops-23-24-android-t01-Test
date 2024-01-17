@@ -65,7 +65,7 @@ fun ReservationDetailScreen(
     val extraItems = remember {reservation?.items?.toMutableStateList()}
     val reservationDetailUiState by reservationDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    var selectedFormula by remember { mutableStateOf(formulas.find { f -> f.name ==  reservation?.formula?.name}) }
+    var selectedFormula by remember { mutableStateOf(formulas.find { f -> f.name == reservation?.formula?.name}) }
     var numberOfPersons by remember { mutableStateOf(reservation?.numberOfPersons.toString()) }
     var beerType by remember { mutableStateOf(reservation?.typeOfBeer?.name ?: "") }
     var totalPrice by remember { mutableStateOf(reservation?.totalPrice.toString()) }
@@ -131,13 +131,13 @@ fun ReservationDetailScreen(
             label = { Text(stringResource(R.string.aantal_personen)) },
             modifier = Modifier.fillMaxWidth()
         )
-        if (selectedFormula?.hasDrinks == true) {
+        if (reservation?.formula?.hasDrinks == true) {
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = beerType,
                 onValueChange = {
                     beerType = it
-                    reservation?.typeOfBeer?.name = it
+                    reservation.typeOfBeer?.name = it
                 },
                 label = { Text(stringResource(R.string.type_bier)) },
                 modifier = Modifier.fillMaxWidth()
@@ -240,6 +240,7 @@ fun ReservationDetailScreen(
                 onClick = {
                     reservation?.state = 1
                     reservationDetailViewModel.setReservation(reservation!!)
+                    reservationListViewModel.getRepoReservations()
                     navController.navigate("reservations")
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
