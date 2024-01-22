@@ -43,7 +43,7 @@ pipeline {
 			
                     // Build the Kotlin project
 		    
-                    sh 'gradle --offline build --continue'
+                    sh 'gradle build --continue'
                 }
             }
         }
