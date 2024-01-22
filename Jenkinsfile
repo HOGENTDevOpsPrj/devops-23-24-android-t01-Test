@@ -42,6 +42,8 @@ pipeline {
 	            sh "cd /home/jenkins/AndroidSDK && ls -l"	
 			
                     // Build the Kotlin project
+                    sh 'gradle assemble'
+		    
                     sh 'gradle build'
                 }
             }
