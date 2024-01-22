@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Blanche</string>
+    <string name="Formulas">Formules</string>
+    <string name="gewoon_blanche">Gewoon Blanche</string>
+    <string name="formula1_description">Geniet van de essentie van Blanche met onze basis formule. Da\'s gewoon Blanche</string>
+    <string name="image_url">image</string>
+    <string name="formula2_name">Brew Buggy</string>
+    <string name="formula2_description">Mobiele bierervaring op zijn best. Geniet van ambachtelijk bier, direct getapt vanuit deze stijlvolle mobiele tapinstallatie.</string>
+    <string name="formula3_name"><![CDATA[Bier & Bite Bonanza]]></string>
+    <string name="formula3_desc">Stap in de wereld van smaak. Huur de foodtruck en voeg een extra dimensie toe met een selectie van bieren naar keuze, perfect samengesteld met een heerlijke hamburger.</string>
+    <string name="back_button">back button</string>
+    <string name="detail">detail\n</string>
+    <string name="about_title">About Blanche\n</string>
+    <string name="expand_button_content_description">expand for more content</string>
+    <string name="edit_formula_content_description">edit formula</string>
+    <string name="delete_formula_content_description">delete formula</string>
+    <string name="navigation_rail">Navigate between items here</string>
+    <string name="Reservations">Reservaties</string>
+    <string name="Extras">Materiaal</string>
+    <string name="ReservationDetails">Reservatiedetails</string>
+    <string name="formule">Formule</string>
+    <string name="aantal_personen">Aantal personen</string>
+    <string name="totaalprijs">Totaalprijs</string>
+    <string name="datum">Datum</string>
+    <string name="periode">Periode</string>
+    <string name="type_bier">Type bier</string>
+    <string name="opmerkingen">Opmerkingen</string>
+    <string name="annuleer">Annuleer</string>
+    <string name="bevestig">Bevestig</string>
+</resources>
