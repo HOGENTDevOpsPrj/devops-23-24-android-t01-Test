@@ -44,6 +44,8 @@ pipeline {
                     // Build the Kotlin project
 		    
                     sh 'gradle build --continue'
+
+		    sh 'ls /var/lib/jenkins/workspace/AndroidApp/app/build/outputs/apk/release'
                 }
             }
         }
